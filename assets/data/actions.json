@@ -20,23 +20,23 @@
         ]
     },
     {
-        "category": "defi",
+        "category": "challenge",
         "actions": [
-            "Tiens-toi sur une jambe pendant 10 secondes.",
             "Fais 5 squats en rigolant.",
             "Raconte une anecdote gênante.",
             "Chante une phrase au hasard.",
             "Fais un compliment à la personne de ton choix.",
-            "Fais la statue pendant 15 secondes.",
-            "Parle avec une voix grave pendant 30 secondes.",
             "Fais 10 jumping jacks.",
             "Fais semblant de téléphoner à quelqu’un.",
             "Équilibre un objet sur ta tête.",
-            "Fais une grimace pendant 5 secondes.",
             "Fais un battle de danse… tout seul.",
             "Décris ta journée comme un film dramatique.",
             "Saute 3 fois comme une grenouille.",
-            "Invente un slogan publicitaire pour le groupe."
+            "Invente un slogan publicitaire pour le groupe.",
+            "Fais le tour de la pièce en marchant à reculons.",
+            "Mime un animal choisi par le groupe.",
+            "Fais une pose de yoga improbable.",
+            "Raconte une blague et fais rire au moins une personne."
         ]
     },
     {
@@ -80,7 +80,7 @@
         ]
     },
     {
-        "category": "minijeux",
+        "category": "mini_game",
         "actions": [
             "1v1 Pierre-Feuille-Ciseaux avec la personne à ta droite.",
             "Le premier qui cligne des yeux perd.",
@@ -88,15 +88,15 @@
             "Le premier qui dit un mot perd.",
             "Devine un animal en 3 questions.",
             "Mime un métier: les autres doivent deviner.",
-            "Choisis un mot: le groupe doit le faire deviner.",
             "Défi vitesse: touche un mur et reviens en premier.",
             "Trouve un objet qui commence par la lettre M.",
             "Échange ton siège avec quelqu’un au hasard.",
             "Jeu du regard: fixe quelqu’un 5 secondes.",
             "Fais deviner un film en 5 mots maximum.",
-            "Devinette rapide: 10 secondes pour trouver un pays.",
             "Cite 3 choses qui sont rouges.",
-            "Le dernier qui dit “dice” perd."
+            "Le dernier qui dit “chat” boit une gorgée d’eau.",
+            "Trouve un objet rond dans la pièce.",
+            "Fais un dessin rapide de ton voisin."
         ]
     }
 ]

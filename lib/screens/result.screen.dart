@@ -1,24 +1,30 @@
 import 'dart:math';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/models/action.model.dart';
 import 'package:rollit/models/category.model.dart';
+import 'package:rollit/providers/action.provider.dart';
+import 'package:rollit/providers/category.provider.dart';
 import 'package:rollit/services/ads.service.dart';
 import 'package:rollit/services/data.service.dart';
 import 'package:flutter/material.dart';
+import 'package:rollit/widgets/app_background.widget.dart';
+import 'package:rollit/widgets/dice.widget.dart';
+import 'package:rollit/widgets/result_card.widget.dart';
 
-class ResultScreen extends StatefulWidget {
+class ResultScreen extends ConsumerStatefulWidget {
   const ResultScreen({super.key});
 
   @override
-  State<ResultScreen> createState() => _ResultScreenState();
+  ConsumerState<ResultScreen> createState() => _ResultScreenState();
 }
 
-class _ResultScreenState extends State<ResultScreen>
+class _ResultScreenState extends ConsumerState<ResultScreen>
     with SingleTickerProviderStateMixin {
   List<DiceCategory> _categories = [];
   List<DiceAction> _actions = [];
-  String? _categoryLabel;
-  String? _categoryIcon;
-  String? _actionText;
+  String _categoryLabel = '';
+  String _categoryImagePath = '';
+  String _actionText = '';
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -27,7 +33,6 @@ class _ResultScreenState extends State<ResultScreen>
   @override
   void initState() {
     super.initState();
-    _loadData();
 
     // animation du lancer
     _controller = AnimationController(
@@ -39,18 +44,30 @@ class _ResultScreenState extends State<ResultScreen>
       parent: _controller,
       curve: Curves.easeOutBack,
     );
+
+    _loadData();
   }
 
   Future<void> _loadData() async {
-    final categories = await DataService.loadCategories();
-    final actions = await DataService.loadActions();
+    final categories = ref.read(categoryProvider).categories;
+    final actions = ref.read(actionProvider).actions;
 
-    setState(() {
-      _categories = categories;
-      _actions = actions;
-    });
+    final category =
+        ref.read(categoryProvider).currentCategory ??
+        categories[_random.nextInt(categories.length)];
+    final categoryActions = actions
+        .firstWhere((a) => a.category == category.id)
+        .actions;
 
-    _roll();
+    final action = categoryActions[_random.nextInt(categoryActions.length)];
+
+    _categories = categories;
+    _actions = actions;
+    _categoryLabel = category.label;
+    _categoryImagePath = category.imagePath;
+    _actionText = action;
+
+    _controller.forward(from: 0);
   }
 
   void _roll() {
@@ -58,7 +75,9 @@ class _ResultScreenState extends State<ResultScreen>
 
     _controller.forward(from: 0);
 
-    final category = _categories[_random.nextInt(_categories.length)];
+    final category =
+        ref.read(categoryProvider).currentCategory ??
+        _categories[_random.nextInt(_categories.length)];
     final categoryActions = _actions
         .firstWhere((a) => a.category == category.id)
         .actions;
@@ -67,116 +86,77 @@ class _ResultScreenState extends State<ResultScreen>
 
     setState(() {
       _categoryLabel = category.label;
-      _categoryIcon = category.icon;
+      _categoryImagePath = category.imagePath;
       _actionText = action;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final ready = _categoryLabel != null && _actionText != null;
+    final categories = ref.watch(categoryProvider).categories;
+    final currentCategory = ref.watch(categoryProvider).currentCategory;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FF),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // bouton retour maison
-            Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                icon: const Icon(Icons.home, size: 30),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Carte résultat animée
-            Expanded(
-              child: Center(
+    return AppBackground(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, size: 28),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              // Carte résultat animée
+              Center(
                 child: AnimatedBuilder(
                   animation: _animation,
                   builder: (context, child) {
                     final scale = 0.8 + (_animation.value * 0.2);
                     return Transform.scale(scale: scale, child: child);
                   },
-                  child: ready
-                      ? _buildResultCard()
-                      : const CircularProgressIndicator(),
+                  child: ResultCard(
+                    title: _categoryLabel,
+                    icon: _categoryImagePath.isNotEmpty
+                        ? Image.asset(_categoryImagePath, width: 80, height: 80)
+                        : null,
+                    actionText: _actionText,
+                  ),
                 ),
               ),
-            ),
+              const Spacer(),
+              Dice(
+                onRollComplete: (category) {
+                  ref
+                      .read(categoryProvider.notifier)
+                      .setCurrentCategory(category);
 
-            const SizedBox(height: 30),
-
-            // bouton relancer
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4C7DF0),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 50,
-                  vertical: 18,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+                  _roll();
+                },
+                onRollStart: () {
+                  setState(() {
+                    _categoryLabel = '';
+                    _categoryImagePath = '';
+                    _actionText = '';
+                  });
+                },
+                hideDiceInitially: true,
+                hideDiceOnComplete: true,
+                initialFacePath:
+                    currentCategory?.imagePath ?? categories.first.imagePath,
+                categories: categories,
+                diceText: "Re-roll!",
               ),
-              onPressed: _roll,
-              child: const Text(
-                "Relancer",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-            ),
-
-            const SizedBox(height: 40),
-          ],
+              const SizedBox(height: 40),
+            ],
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildResultCard() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 28),
-      padding: const EdgeInsets.all(26),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(28),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.07),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(_categoryIcon ?? "🎲", style: const TextStyle(fontSize: 50)),
-          const SizedBox(height: 12),
-          Text(
-            _categoryLabel ?? "",
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF4C7DF0),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            _actionText ?? "",
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 18,
-              height: 1.4,
-              fontWeight: FontWeight.w500,
-              color: Colors.black87,
-            ),
-          ),
-        ],
       ),
     );
   }

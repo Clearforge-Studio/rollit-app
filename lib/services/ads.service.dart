@@ -12,7 +12,7 @@ class AdsService {
 
   // compteur pour décider quand afficher une pub
   int actionCount = 0;
-  final int showEvery = 4; // pub toutes les 4 actions
+  final int showEvery = 10; // pub toutes les 10 actions
 
   // IDs de test par défaut
   static String get interstitialAdUnitId {

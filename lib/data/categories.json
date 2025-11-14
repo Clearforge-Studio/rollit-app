@@ -1,7 +1,0 @@
-[
-    { "id": "imitation", "label": "Imitation", "icon": "🎭" },
-    { "id": "defi", "label": "Défi", "icon": "🔥" },
-    { "id": "fun", "label": "Question Fun", "icon": "❓" },
-    { "id": "wtf", "label": "WTF", "icon": "🤪" },
-    { "id": "minijeux", "label": "Mini-jeux", "icon": "🕹️" }
-]

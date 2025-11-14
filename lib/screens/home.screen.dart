@@ -1,56 +1,72 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rollit/providers/category.provider.dart';
 import 'package:rollit/screens/result.screen.dart';
-import 'package:rollit/widgets/rollit_logo.widget.dart';
+import 'package:rollit/widgets/app_background.widget.dart';
+import 'package:rollit/widgets/circular_dice.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rollit/widgets/dice.widget.dart';
+import 'package:rollit/widgets/transition/slide_transition.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FF),
-      appBar: AppBar(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categories = ref.watch(categoryProvider).categories;
+
+    return AppBackground(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, size: 28),
-          onPressed: () {
-            Navigator.pushNamed(context, '/settings');
-          },
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.menu, size: 28),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
+          ],
         ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const RollitLogo(size: 120),
-
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Roll',
+                    style: GoogleFonts.poppins(
+                      fontSize: 72,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    'it!',
+                    style: GoogleFonts.poppins(
+                      fontSize: 72,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFFFFD700),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 60),
-
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4C7DF0),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 60,
-                    vertical: 18,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const ResultScreen()),
-                  );
+              Dice(
+                onRollComplete: (category) {
+                  ref
+                      .read(categoryProvider.notifier)
+                      .setCurrentCategory(category);
+                  Navigator.push(context, slideTransition(ResultScreen()));
                 },
-                child: const Text(
-                  "Lancer les dés",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                ),
+                initialFacePath: categories.first.imagePath,
+                categories: categories,
               ),
             ],
           ),

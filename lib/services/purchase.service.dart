@@ -66,7 +66,7 @@ class PurchaseService {
     );
 
     final details = PurchaseParam(productDetails: product);
-    await _iap.buyConsumable(purchaseParam: details);
+    await _iap.buyNonConsumable(purchaseParam: details);
   }
 
   Future<void> removeAds() async {
