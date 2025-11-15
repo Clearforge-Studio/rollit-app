@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rollit/models/category.model.dart';
+import 'package:rollit/models/dice_category.model.dart';
 import 'package:rollit/services/preferences.service.dart';
 import 'package:rollit/services/sound.service.dart';
 import 'package:vibration/vibration.dart';
@@ -37,6 +37,7 @@ class Dice extends StatefulWidget {
 class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _spin;
+  bool _isRolling = false;
   bool _hideDice = false;
 
   int _currentLogicalIndex = -1; // -1 → on n’a pas encore roll
@@ -58,6 +59,9 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
   }
 
   void roll() async {
+    if (_isRolling) return;
+    _isRolling = true;
+
     await triggerDiceRollSound();
     triggerHaptic();
 
@@ -80,6 +84,7 @@ class _DiceState extends State<Dice> with SingleTickerProviderStateMixin {
       }
 
       widget.onRollComplete(widget.categories[newIndex]);
+      _isRolling = false;
     });
   }
 

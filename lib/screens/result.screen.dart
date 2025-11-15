@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rollit/models/action.model.dart';
-import 'package:rollit/models/category.model.dart';
+import 'package:rollit/models/dice_action.model.dart';
+import 'package:rollit/models/dice_category.model.dart';
 import 'package:rollit/providers/action.provider.dart';
 import 'package:rollit/providers/category.provider.dart';
 import 'package:rollit/services/ads.service.dart';
@@ -48,7 +48,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
   }
 
   Future<void> _loadData() async {
-    final categories = ref.read(categoryProvider).categories;
+    final categories = ref.read(categoryProvider.notifier).getCategories();
     final actions = ref.read(actionProvider).actions;
 
     final category =
@@ -92,7 +92,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
 
   @override
   Widget build(BuildContext context) {
-    final categories = ref.watch(categoryProvider).categories;
+    final categories = ref.watch(categoryProvider.notifier).getCategories();
     final currentCategory = ref.watch(categoryProvider).currentCategory;
 
     return AppBackground(

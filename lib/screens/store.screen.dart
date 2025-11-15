@@ -6,6 +6,13 @@ class StoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final removeAdsOwned = PurchaseService.instance.adsRemoved;
+    final wtfPlusOwned = PurchaseService.instance.wtfPlusOwned;
+    final challengeExtremeOwned =
+        PurchaseService.instance.challengeExtremeOwned;
+
+    print(challengeExtremeOwned);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FF),
       appBar: AppBar(
@@ -21,53 +28,69 @@ class StoreScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          _sectionTitle("Packs Premium"),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 650.0),
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              _sectionTitle("Packs Premium"),
 
-          const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-          _storeCard(
-            title: "WTF+",
-            subtitle: "Débloque 20 actions WTF supplémentaires",
-            price: "1,49€",
-            color: const Color(0xFF9A5DF5),
-            icon: "🤪",
-            onTap: () {
-              PurchaseService.instance.buyWtfPlus();
-            },
+              _storeCard(
+                title: "WTF+",
+                subtitle: "20 actions WTF encore plus folles et absurdes.",
+                price: wtfPlusOwned ? "Acheté" : "1,99€",
+                color: const Color(0xFF9A5DF5),
+                icon: "🤪",
+                owned: wtfPlusOwned,
+                onTap: () {
+                  if (wtfPlusOwned) return;
+
+                  PurchaseService.instance.buyWtfPlus();
+                },
+              ),
+
+              const SizedBox(height: 22),
+
+              _storeCard(
+                title: "Défis Extrêmes",
+                subtitle:
+                    "20 Défis physiques et mentaux pour passer au niveau supérieur.",
+                price: "1,99€",
+                color: const Color(0xFFFF8F5A),
+                icon: "🔥",
+                owned: challengeExtremeOwned,
+                onTap: () {
+                  if (challengeExtremeOwned) return;
+
+                  PurchaseService.instance.buyChallengeExtreme();
+                },
+              ),
+
+              const SizedBox(height: 22),
+
+              _sectionTitle("Autres options"),
+
+              const SizedBox(height: 16),
+
+              _storeCard(
+                title: "Supprimer les pubs",
+                subtitle: "Plus aucune interruption",
+                price: removeAdsOwned ? "Acheté" : "3,99€",
+                color: const Color(0xFF55E6C1),
+                icon: "🚫",
+                owned: removeAdsOwned,
+                onTap: () {
+                  if (removeAdsOwned) return;
+
+                  PurchaseService.instance.removeAds();
+                },
+              ),
+            ],
           ),
-
-          const SizedBox(height: 22),
-
-          _storeCard(
-            title: "Défis Extrêmes",
-            subtitle: "Bientôt disponible",
-            price: "-",
-            color: const Color(0xFFFF8F5A),
-            icon: "🔥",
-            locked: true,
-            onTap: () {},
-          ),
-
-          const SizedBox(height: 22),
-
-          _sectionTitle("Autres options"),
-
-          const SizedBox(height: 16),
-
-          _storeCard(
-            title: "Supprimer les pubs",
-            subtitle: "Plus aucune interruption",
-            price: "2,99€",
-            color: const Color(0xFF55E6C1),
-            icon: "🚫",
-            onTap: () {
-              PurchaseService.instance.removeAds();
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -89,15 +112,15 @@ class StoreScreen extends StatelessWidget {
     required String price,
     required String icon,
     required Color color,
-    bool locked = false,
+    bool owned = false,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
-      onTap: locked ? null : onTap,
+      onTap: owned ? null : onTap,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: owned ? Colors.grey.shade100 : Colors.white,
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
@@ -130,11 +153,11 @@ class StoreScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    locked ? "$title (Bientôt)" : title,
+                    title,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color: locked
+                      color: owned
                           ? Colors.grey.shade500
                           : Colors.grey.shade900,
                     ),
@@ -142,19 +165,19 @@ class StoreScreen extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     subtitle,
-                    style: TextStyle(fontSize: 15, color: Colors.grey.shade600),
+                    style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
                   ),
                 ],
               ),
             ),
-
+            const SizedBox(width: 10.0),
             // Prix
             Text(
               price,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: locked ? Colors.grey.shade400 : Colors.grey.shade800,
+                color: owned ? Colors.grey.shade400 : Colors.grey.shade800,
               ),
             ),
           ],

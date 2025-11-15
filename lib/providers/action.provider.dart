@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rollit/models/action.model.dart';
+import 'package:rollit/models/dice_action.model.dart';
 import 'package:rollit/services/data.service.dart';
 
 class ActionState {

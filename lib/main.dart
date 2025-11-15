@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await PreferencesService.init();
   await Future.wait([
-    PreferencesService.init(),
     PurchaseService.instance.init(),
     AdsService.instance.init(),
   ]);

@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rollit/services/preferences.service.dart';
 
 class PurchaseService {
   // Singleton
@@ -9,6 +10,7 @@ class PurchaseService {
 
   // Produits disponibles sur Google Play
   static const String productWtfPlus = "wtf_plus";
+  static const String productChallengeExtreme = "challenge_extreme";
   static const String productRemoveAds = "remove_ads";
 
   final InAppPurchase _iap = InAppPurchase.instance;
@@ -19,19 +21,20 @@ class PurchaseService {
 
   // Statuts locaux
   bool wtfPlusOwned = false;
-  bool adsRemoved = false;
+  bool challengeExtremeOwned = false;
+  bool adsRemoved = true;
 
   Future<void> init() async {
+    // Lecture des achats enregistrés localement
+    wtfPlusOwned = PreferencesService.getWtfPlusOwned();
+    challengeExtremeOwned = PreferencesService.getChallengeExtremeOwned();
+    adsRemoved = PreferencesService.getAdsRemoved();
+
     final bool available = await _iap.isAvailable();
     if (!available) {
       print("IAP non disponible");
       return;
     }
-
-    // Lecture des achats enregistrés localement
-    final prefs = await SharedPreferences.getInstance();
-    wtfPlusOwned = prefs.getBool(productWtfPlus) ?? false;
-    adsRemoved = prefs.getBool(productRemoveAds) ?? false;
 
     // Écoute des mises à jour d'achat
     _subscription = _iap.purchaseStream.listen(
@@ -75,6 +78,16 @@ class PurchaseService {
     await _iap.buyNonConsumable(purchaseParam: details);
   }
 
+  Future<void> buyChallengeExtreme() async {
+    final product = products.firstWhere(
+      (p) => p.id == productChallengeExtreme,
+      orElse: () => throw Exception("Produit Challenge Extrême introuvable"),
+    );
+
+    final details = PurchaseParam(productDetails: product);
+    await _iap.buyNonConsumable(purchaseParam: details);
+  }
+
   Future<void> removeAds() async {
     final product = products.firstWhere(
       (p) => p.id == productRemoveAds,
@@ -101,18 +114,22 @@ class PurchaseService {
   }
 
   Future<void> _verifyAndApplyPurchase(PurchaseDetails purchase) async {
-    final prefs = await SharedPreferences.getInstance();
-
     switch (purchase.productID) {
       case productWtfPlus:
         wtfPlusOwned = true;
-        await prefs.setBool(productWtfPlus, true);
+        await PreferencesService.setWtfPlusOwned(true);
         print("WTF+ débloqué");
+        break;
+
+      case productChallengeExtreme:
+        challengeExtremeOwned = true;
+        await PreferencesService.setChallengeExtremeOwned(true);
+        print("Challenge Extrême débloqué");
         break;
 
       case productRemoveAds:
         adsRemoved = true;
-        await prefs.setBool(productRemoveAds, true);
+        await PreferencesService.setAdsRemoved(true);
         print("Les pubs sont retirées");
         break;
     }

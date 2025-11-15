@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rollit/models/category.model.dart';
+import 'package:rollit/models/dice_category.model.dart';
 import 'package:rollit/services/data.service.dart';
+import 'package:rollit/services/preferences.service.dart';
 
 class CategoryState {
   final List<DiceCategory> categories;
@@ -30,6 +31,14 @@ class CategoryNotifier extends Notifier<CategoryState> {
       categories: state.categories,
       currentCategory: category,
     );
+  }
+
+  List<DiceCategory> getCategories() {
+    final enabledCategories = PreferencesService.getEnabledCategories();
+
+    return state.categories.where((category) {
+      return enabledCategories.contains(category.id);
+    }).toList();
   }
 }
 

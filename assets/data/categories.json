@@ -1,7 +1,39 @@
 [
-    { "id": "imitation", "label": "Imitation", "image_path": "assets/images/dice/imitation.png" },
-    { "id": "challenge", "label": "Défi", "image_path": "assets/images/dice/challenge.png" },
-    { "id": "fun", "label": "Question Fun", "image_path": "assets/images/dice/fun.png" },
-    { "id": "wtf", "label": "WTF", "image_path": "assets/images/dice/wtf.png" },
-    { "id": "mini_game", "label": "Mini-jeux", "image_path": "assets/images/dice/mini-games.png" }
+    {
+        "id": "imitation",
+        "label": "Imitation",
+        "image_path": "assets/images/dice/imitation.png"
+    },
+    {
+        "id": "challenge",
+        "label": "Défi",
+        "image_path": "assets/images/dice/challenge.png"
+    },
+    {
+        "id": "fun",
+        "label": "Question Fun",
+        "image_path": "assets/images/dice/fun.png"
+    },
+    {
+        "id": "wtf",
+        "label": "WTF",
+        "image_path": "assets/images/dice/wtf.png"
+    },
+    {
+        "id": "mini_game",
+        "label": "Mini-jeux",
+        "image_path": "assets/images/dice/mini-games.png"
+    },
+    {
+        "id": "wtf_plus",
+        "label": "WTF+",
+        "image_path": "assets/images/dice/wtf_plus.png",
+        "is_iap": true
+    },
+    {
+        "id": "challenge_extreme",
+        "label": "Défis Extrèmes",
+        "image_path": "assets/images/dice/challenge.png",
+        "is_iap": true
+    }
 ]

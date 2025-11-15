@@ -18,6 +18,7 @@ class ResultCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 28),
       padding: const EdgeInsets.all(26),
       constraints: BoxConstraints(
+        maxWidth: 650.0,
         minHeight: MediaQuery.of(context).size.height * 0.425,
       ),
       decoration: BoxDecoration(

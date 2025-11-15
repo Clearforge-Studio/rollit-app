@@ -12,7 +12,8 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories = ref.watch(categoryProvider).categories;
+    final categories = ref.watch(categoryProvider.notifier).getCategories();
+    final currentCategory = ref.watch(categoryProvider).currentCategory;
 
     return AppBackground(
       child: Scaffold(
@@ -64,7 +65,9 @@ class HomeScreen extends ConsumerWidget {
                       .setCurrentCategory(category);
                   Navigator.push(context, slideTransition(ResultScreen()));
                 },
-                initialFacePath: categories.first.imagePath,
+                initialFacePath: currentCategory != null
+                    ? currentCategory.imagePath
+                    : categories.first.imagePath,
                 categories: categories,
               ),
             ],
