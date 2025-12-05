@@ -31,6 +31,7 @@ class RollitApp extends ConsumerStatefulWidget {
 class _RollitAppState extends ConsumerState<RollitApp> {
   @override
   void initState() {
+    super.initState();
     ref.read(categoryProvider.notifier).loadCategories();
     ref.read(actionProvider.notifier).loadActions();
   }
