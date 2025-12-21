@@ -281,7 +281,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: "Politique de confidentialité",
                   onTap: () {
                     openUrl(
-                      "https://clearforgestudio.com/apps/roolit/privacy-policy",
+                      "https://clearforgestudio.com/rollit/privacy-policy",
                     );
                   },
                 ),
@@ -296,8 +296,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   icon: Icons.star_rate_rounded,
                   title: "Noter l’application",
                   onTap: () async {
-                    await ReviewService.markAsAsked();
-                    await ReviewService.requestReview();
+                    ReviewService.openStore();
                   },
                 ),
 

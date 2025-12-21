@@ -21,7 +21,7 @@ class ConsentManager {
 
     final params = ConsentRequestParameters(
       tagForUnderAgeOfConsent: false,
-      consentDebugSettings: _debug(), // ⬅️ décommente en debug si besoin
+      // consentDebugSettings: _debug(),
     );
 
     final consentInfo = ConsentInformation.instance;

@@ -47,18 +47,24 @@ class ReviewService {
     return true;
   }
 
-  /// Show your custom popup BEFORE calling this
   static Future<void> requestReview() async {
-    final isAvailable = await _inAppReview.isAvailable();
+    try {
+      final isAvailable = await _inAppReview.isAvailable();
 
-    if (isAvailable) {
-      _inAppReview.requestReview();
-    } else {
-      // fallback Play Store
-      openUrl(
-        "https://play.google.com/store/apps/details?id=com.clearforge.rollit",
-      );
+      if (isAvailable) {
+        await _inAppReview.requestReview();
+      } else {
+        openStore();
+      }
+    } catch (_) {
+      openStore();
     }
+  }
+
+  static void openStore() {
+    openUrl(
+      "https://play.google.com/store/apps/details?id=com.clearforge.rollit",
+    );
   }
 
   /// Call when user clicks "Noter l’app"
