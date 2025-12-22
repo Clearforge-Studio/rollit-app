@@ -35,7 +35,14 @@
 	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-2859118390192986-6032804655</string>
+	<string>ca-app-pub-2859118390192986~6032804655</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>cstr6suwn9.skadnetwork</string>
+		</dict>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
