@@ -24,10 +24,11 @@ class AdsService {
 
       return "ca-app-pub-2859118390192986/5174279550"; // PROD Android
     } else if (Platform.isIOS) {
-      // iOS version is not planned for production yet
       if (kDebugMode) {
         return "ca-app-pub-3940256099942544/4411468910"; // TEST iOS
       }
+
+      return "ca-app-pub-2859118390192986/6363977148";
     }
 
     return "";
