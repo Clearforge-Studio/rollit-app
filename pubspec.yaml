@@ -107,9 +107,9 @@ flutter_native_splash:
 
     android: true
     ios: true
+
     web: false
 
-    ios_content_mode: scaleAspectFill
     android_12:
         color: '#2F037F'
         image: assets/images/splash.png

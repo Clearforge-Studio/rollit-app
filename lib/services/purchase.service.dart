@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
@@ -79,6 +81,7 @@ class PurchaseService {
     if (result.customerInfo.entitlements.active.isEmpty) {
       throw Exception("Achat échoué ou annulé");
     }
+
     await refreshEntitlements();
   }
 

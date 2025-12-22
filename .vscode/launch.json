@@ -5,7 +5,7 @@
             "name": "RollIt! (Dev)",
             "request": "launch",
             "type": "dart",
-            "args": ["--dart-define=REVENUECAT_ANDROID_KEY=test_zqxbvPnOFTQMUbUCkVNthkflryO"]
+            "args": ["--dart-define=REVENUECAT_ANDROID_KEY=test_zqxbvPnOFTQMUbUCkVNthkflryO", "--dart-define=REVENUECAT_IOS_KEY=test_zqxbvPnOFTQMUbUCkVNthkflryO"]
         }
     ]
 }

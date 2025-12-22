@@ -106,50 +106,55 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
           ),
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              // Carte résultat animée
-              Center(
-                child: AnimatedBuilder(
-                  animation: _animation,
-                  builder: (context, child) {
-                    final scale = 0.8 + (_animation.value * 0.2);
-                    return Transform.scale(scale: scale, child: child);
-                  },
-                  child: ResultCard(
-                    title: _categoryLabel,
-                    icon: _categoryImagePath.isNotEmpty
-                        ? Image.asset(_categoryImagePath, width: 80, height: 80)
-                        : null,
-                    actionText: _actionText,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Carte résultat animée
+                Center(
+                  child: AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      final scale = 0.8 + (_animation.value * 0.2);
+                      return Transform.scale(scale: scale, child: child);
+                    },
+                    child: ResultCard(
+                      title: _categoryLabel,
+                      icon: _categoryImagePath.isNotEmpty
+                          ? Image.asset(
+                              _categoryImagePath,
+                              width: 80,
+                              height: 80,
+                            )
+                          : null,
+                      actionText: _actionText,
+                    ),
                   ),
                 ),
-              ),
-              const Spacer(),
-              Dice(
-                onRollComplete: (category) {
-                  ref
-                      .read(categoryProvider.notifier)
-                      .setCurrentCategory(category);
+                const SizedBox(height: 40.0),
+                Dice(
+                  onRollComplete: (category) {
+                    ref
+                        .read(categoryProvider.notifier)
+                        .setCurrentCategory(category);
 
-                  _roll();
-                },
-                onRollStart: () {
-                  setState(() {
-                    _categoryLabel = '';
-                    _categoryImagePath = '';
-                    _actionText = '';
-                  });
-                },
-                hideDiceInitially: true,
-                hideDiceOnComplete: true,
-                initialFacePath:
-                    currentCategory?.imagePath ?? categories.first.imagePath,
-                categories: categories,
-                diceText: "Re-roll!",
-              ),
-              const SizedBox(height: 40),
-            ],
+                    _roll();
+                  },
+                  onRollStart: () {
+                    setState(() {
+                      _categoryLabel = '';
+                      _categoryImagePath = '';
+                      _actionText = '';
+                    });
+                  },
+                  hideDiceInitially: false,
+                  hideDiceOnComplete: false,
+                  initialFacePath:
+                      currentCategory?.imagePath ?? categories.first.imagePath,
+                  categories: categories,
+                  diceText: "Re-roll!",
+                ),
+              ],
+            ),
           ),
         ),
       ),
