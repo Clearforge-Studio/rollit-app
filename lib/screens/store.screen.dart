@@ -5,11 +5,16 @@ import 'package:rollit/services/purchase.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class StoreScreen extends ConsumerWidget {
+class StoreScreen extends ConsumerStatefulWidget {
   const StoreScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<StoreScreen> createState() => _StoreScreenState();
+}
+
+class _StoreScreenState extends ConsumerState<StoreScreen> {
+  @override
+  Widget build(BuildContext context) {
     final removeAdsOwned = PurchaseService.instance.adsRemoved;
     final wtfPlusOwned = PurchaseService.instance.wtfPlusOwned;
     final challengeExtremeOwned =
@@ -67,9 +72,12 @@ class StoreScreen extends ConsumerWidget {
                   debugPrint(wtfPlusOwned.toString());
                   if (wtfPlusOwned) return;
 
-                  handleBuy(context, () async {
-                    await purchaseNotifier.buy(PurchaseService.entWtfPlus);
+                  await handleBuy(context, () async {
+                    return await purchaseNotifier.buy(
+                      PurchaseService.entWtfPlus,
+                    );
                   });
+                  setState(() {});
                 },
               ),
 
@@ -83,14 +91,16 @@ class StoreScreen extends ConsumerWidget {
                 color: const Color(0xFFFF8F5A),
                 icon: "🔥",
                 owned: challengeExtremeOwned,
-                onTap: () {
+                onTap: () async {
                   if (challengeExtremeOwned) return;
 
-                  handleBuy(context, () async {
-                    await purchaseNotifier.buy(
+                  await handleBuy(context, () async {
+                    return await purchaseNotifier.buy(
                       PurchaseService.entChallengeExtreme,
                     );
                   });
+
+                  setState(() {});
                 },
               ),
 
@@ -107,12 +117,15 @@ class StoreScreen extends ConsumerWidget {
                 color: const Color(0xFF55E6C1),
                 icon: "🚫",
                 owned: removeAdsOwned,
-                onTap: () {
+                onTap: () async {
                   if (removeAdsOwned) return;
 
-                  handleBuy(context, () async {
-                    await purchaseNotifier.buy(PurchaseService.entRemoveAds);
+                  await handleBuy(context, () async {
+                    return await purchaseNotifier.buy(
+                      PurchaseService.entRemoveAds,
+                    );
                   });
+                  setState(() {});
                 },
               ),
             ],

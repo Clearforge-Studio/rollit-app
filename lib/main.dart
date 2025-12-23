@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rollit/providers/action.provider.dart';
 import 'package:rollit/providers/category.provider.dart';
+import 'package:rollit/screens/add_players.screen.dart';
 import 'package:rollit/screens/home.screen.dart';
 import 'package:rollit/screens/settings.screen.dart';
 import 'package:rollit/services/consent_manager.dart';
@@ -35,6 +37,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await PreferencesService.init();
+  await EasyLocalization.ensureInitialized();
 
   await Future.wait([
     clearTempCache(),
@@ -43,13 +46,22 @@ void main() async {
     ReviewService.registerSession(),
   ]);
 
+  SystemChrome.setSystemUIOverlayStyle(uiStyle);
+
   if (kDebugMode) {
     log('🛠️ Debug mode is ON');
   }
 
   FlutterNativeSplash.remove();
 
-  runApp(ProviderScope(child: const RollitApp()));
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('fr')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: ProviderScope(child: const RollitApp()),
+    ),
+  );
 }
 
 class RollitApp extends ConsumerStatefulWidget {
@@ -65,14 +77,15 @@ class _RollitAppState extends ConsumerState<RollitApp> {
     super.initState();
     ref.read(categoryProvider.notifier).loadCategories();
     ref.read(actionProvider.notifier).loadActions();
-
-    SystemChrome.setSystemUIOverlayStyle(uiStyle);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rollit!',
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -86,7 +99,11 @@ class _RollitAppState extends ConsumerState<RollitApp> {
           systemOverlayStyle: uiStyle,
         ),
       ),
-      routes: {'/settings': (_) => const SettingsScreen()},
+      routes: {
+        '/settings': (_) => const SettingsScreen(),
+        '/add_players': (_) => const AddPlayersScreen(),
+        '/home': (_) => const HomeScreen(),
+      },
       home: FutureBuilder(
         future: ref.read(categoryProvider.notifier).loadCategories(),
         builder: (_, __) {

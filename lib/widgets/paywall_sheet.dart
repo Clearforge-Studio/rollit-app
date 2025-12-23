@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/helpers/buy.dart';
 import 'package:rollit/providers/purchase.provider.dart';
+import 'package:rollit/services/i18n.service.dart';
 import 'package:rollit/services/purchase.service.dart';
+import "package:easy_localization/easy_localization.dart";
 
 class PaywallSheet extends ConsumerWidget {
   const PaywallSheet({super.key});
@@ -39,7 +41,7 @@ class PaywallSheet extends ConsumerWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    "Passe en mode Chaos ✨",
+                    I18nKeys.instance.paywallSheet.title.tr(),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
@@ -60,62 +62,72 @@ class PaywallSheet extends ConsumerWidget {
             const SizedBox(height: 14),
 
             _ProductTile(
-              title: "WTF+",
-              subtitle: "Actions plus absurdes, plus mémorables",
+              title: I18nKeys.instance.paywallSheet.wtfPlusProductTitle.tr(),
+              subtitle: I18nKeys.instance.paywallSheet.wtfPlusProductDescription
+                  .tr(),
               price: purchaseState.wtfPlusPrice,
               owned: purchaseState.wtfPlusOwned,
               icon: Icons.sentiment_very_satisfied_rounded,
               onTap: purchaseState.loading
                   ? null
                   : () async {
-                      final bought = await handleBuy(context, () async {
-                        await purchaseController.buy(
+                      await handleBuy(context, () async {
+                        return await purchaseController.buy(
                           PurchaseService.entWtfPlus,
                         );
                       });
 
-                      if (bought && context.mounted) {
-                        Navigator.pop(context, bought);
+                      if (context.mounted) {
+                        Navigator.pop(context, true);
                       }
                     },
             ),
             const SizedBox(height: 10),
             _ProductTile(
-              title: "Défis Extrêmes+",
-              subtitle: "Le pack qui justifie l’achat 😈",
+              title: I18nKeys.instance.paywallSheet.challengeExtremeProductTitle
+                  .tr(),
+              subtitle: I18nKeys
+                  .instance
+                  .paywallSheet
+                  .challengeExtremeProductDescription
+                  .tr(),
               price: purchaseState.challengeExtremePrice,
               owned: purchaseState.challengeExtremeOwned,
               icon: Icons.local_fire_department_rounded,
               onTap: purchaseState.loading
                   ? null
                   : () async {
-                      final bought = await handleBuy(context, () async {
-                        await purchaseController.buy(
+                      await handleBuy(context, () async {
+                        return await purchaseController.buy(
                           PurchaseService.entChallengeExtreme,
                         );
                       });
-                      if (bought && context.mounted) {
-                        Navigator.pop(context, bought);
+                      if (context.mounted) {
+                        Navigator.pop(context, true);
                       }
                     },
             ),
             const SizedBox(height: 10),
             _ProductTile(
-              title: "Remove Ads",
-              subtitle: "Zéro pub. Juste le fun.",
+              title: I18nKeys.instance.paywallSheet.removeAdsProductTitle.tr(),
+              subtitle: I18nKeys
+                  .instance
+                  .paywallSheet
+                  .removeAdsProductDescription
+                  .tr(),
               price: purchaseState.removeAdsPrice,
               owned: purchaseState.adsRemoved,
               icon: Icons.block_rounded,
               onTap: purchaseState.loading
                   ? null
                   : () async {
-                      final bought = await handleBuy(context, () async {
-                        await purchaseController.buy(
+                      await handleBuy(context, () async {
+                        return await purchaseController.buy(
                           PurchaseService.entRemoveAds,
                         );
                       });
-                      if (bought && context.mounted) {
-                        Navigator.pop(context, bought);
+                      if (context.mounted) {
+                        Navigator.pop(context, true);
                       }
                     },
             ),
@@ -129,9 +141,9 @@ class PaywallSheet extends ConsumerWidget {
                     onPressed: purchaseState.loading
                         ? null
                         : () => purchaseController.restore(),
-                    child: const Text(
-                      "Restaurer",
-                      style: TextStyle(color: Colors.white70),
+                    child: Text(
+                      I18nKeys.instance.paywallSheet.restore.tr(),
+                      style: const TextStyle(color: Colors.white70),
                     ),
                   ),
                 ),
@@ -165,9 +177,12 @@ class _Badge extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(999),
       ),
-      child: const Text(
-        "Premium",
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+      child: Text(
+        I18nKeys.instance.paywallSheet.premium.tr(),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }
@@ -198,11 +213,20 @@ class _Perks extends StatelessWidget {
       ),
       child: Column(
         children: [
-          perk(Icons.lock_open_rounded, "Débloque des packs d’actions"),
+          perk(
+            Icons.lock_open_rounded,
+            I18nKeys.instance.paywallSheet.perkUnlockPacks.tr(),
+          ),
           const SizedBox(height: 8),
-          perk(Icons.offline_bolt_rounded, "Achat unique, pas d’abonnement"),
+          perk(
+            Icons.offline_bolt_rounded,
+            I18nKeys.instance.paywallSheet.perkOneTimePurchase.tr(),
+          ),
           const SizedBox(height: 8),
-          perk(Icons.privacy_tip_rounded, "Aucune donnée perso collectée"),
+          perk(
+            Icons.privacy_tip_rounded,
+            I18nKeys.instance.paywallSheet.perkNoPersonalData.tr(),
+          ),
         ],
       ),
     );
@@ -280,9 +304,9 @@ class _ProductTile extends StatelessWidget {
                   color: Colors.white.withOpacity(0.10),
                   borderRadius: BorderRadius.circular(999),
                 ),
-                child: const Text(
-                  "Acheté",
-                  style: TextStyle(
+                child: Text(
+                  I18nKeys.instance.paywallSheet.bought.tr(),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
                   ),

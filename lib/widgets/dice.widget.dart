@@ -120,8 +120,15 @@ class _DiceState extends ConsumerState<Dice>
     PreferencesService.setRollsCount(updatedRollsCount);
 
     final showed = await AdsService.instance.tryShowInterstitial();
+    final wtfPlusOwned = ref.read(purchaseControllerProvider).wtfPlusOwned;
+    final challengeExtremeOwned = ref
+        .read(purchaseControllerProvider)
+        .challengeExtremeOwned;
 
-    if (showed && !PreferencesService.hasShownRemoveAdsPaywall()) {
+    if (showed &&
+        !PreferencesService.hasShownRemoveAdsPaywall() &&
+        !wtfPlusOwned &&
+        !challengeExtremeOwned) {
       if (mounted) {
         PreferencesService.setHasShownRemoveAdsPaywall(true);
         if (context.mounted) {
@@ -136,8 +143,13 @@ class _DiceState extends ConsumerState<Dice>
       }
     }
 
+    final ownsAllPacks = wtfPlusOwned && challengeExtremeOwned;
     final diceState = ref.read(diceProvider);
-    if (updatedRollsCount == diceState.maxRollsBeforePaywall && mounted) {
+
+    if (updatedRollsCount >= diceState.maxRollsBeforePaywall &&
+        mounted &&
+        !PreferencesService.hasShownPaywall() &&
+        !ownsAllPacks) {
       PreferencesService.setHasShownPaywall(true);
       if (context.mounted) {
         await showModalBottomSheet<bool>(

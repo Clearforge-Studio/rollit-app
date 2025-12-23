@@ -1,6 +1,12 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/helpers/buy.dart';
 import 'package:rollit/helpers/url.dart';
 import 'package:rollit/models/dice_category.model.dart';
+import 'package:rollit/providers/purchase.provider.dart';
 import 'package:rollit/screens/store.screen.dart';
 import 'package:rollit/services/consent_manager.dart';
 import 'package:rollit/services/preferences.service.dart';
@@ -8,14 +14,14 @@ import 'package:rollit/services/purchase.service.dart';
 import 'package:flutter/material.dart';
 import 'package:rollit/services/review.service.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   late bool soundEnabled;
   late bool vibrationEnabled;
 
@@ -63,6 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final challengeExtremeOwned =
         PurchaseService.instance.challengeExtremeOwned;
     final enabledCategories = PreferencesService.getEnabledCategories();
+    final purchaseNotifier = ref.read(purchaseControllerProvider.notifier);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 242, 242, 251),
@@ -251,12 +258,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     icon: Icons.block,
                     title: "Supprimer les pubs",
                     color: const Color(0xFF55E6C1),
-                    onTap: () {
-                      handleBuy(context, () async {
-                        await PurchaseService.instance.buy(
+                    onTap: () async {
+                      await handleBuy(context, () async {
+                        return await purchaseNotifier.buy(
                           PurchaseService.entRemoveAds,
                         );
                       });
+
+                      setState(() {});
                     },
                   ),
 
@@ -264,10 +273,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   icon: Icons.refresh,
                   title: "Restaurer les achats",
                   onTap: () async {
-                    handleBuy(context, () async {
-                      await PurchaseService.instance.restore();
+                    await handleBuy(context, () async {
+                      return await purchaseNotifier.restore();
                     });
-
                     setState(() {});
                   },
                 ),
@@ -404,11 +412,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
             ),
           ),
-          Switch(
-            value: value,
-            activeThumbColor: const Color.fromARGB(255, 45, 54, 226),
-            onChanged: onChanged,
-          ),
+          Platform.isIOS
+              ? CupertinoSwitch(
+                  value: value,
+                  activeTrackColor: const Color.fromARGB(255, 45, 54, 226),
+                  onChanged: onChanged,
+                )
+              : Switch(
+                  value: value,
+                  activeThumbColor: const Color.fromARGB(255, 45, 54, 226),
+                  onChanged: onChanged,
+                ),
         ],
       ),
     );

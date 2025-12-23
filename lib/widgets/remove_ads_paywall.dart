@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/helpers/buy.dart';
 import 'package:rollit/providers/purchase.provider.dart';
+import 'package:rollit/services/i18n.service.dart';
 import 'package:rollit/services/purchase.service.dart';
+import "package:easy_localization/easy_localization.dart";
 
 class RemoveAdsPaywall extends ConsumerWidget {
   const RemoveAdsPaywall({super.key});
@@ -40,7 +42,7 @@ class RemoveAdsPaywall extends ConsumerWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    "Jouez sans interruption 🎲",
+                    I18nKeys.instance.removeAdsPaywall.title.tr(),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
@@ -61,22 +63,23 @@ class RemoveAdsPaywall extends ConsumerWidget {
             const SizedBox(height: 14),
 
             _ProductTile(
-              title: "Remove Ads",
-              subtitle: "Zéro pub. Juste le fun.",
+              title: I18nKeys.instance.removeAdsPaywall.productTitle.tr(),
+              subtitle: I18nKeys.instance.removeAdsPaywall.productDescription
+                  .tr(),
               price: purchaseState.removeAdsPrice,
               owned: purchaseState.adsRemoved,
               icon: Icons.block_rounded,
               onTap: purchaseState.loading
                   ? null
                   : () async {
-                      final bought = await handleBuy(context, () async {
-                        await purchaseController.buy(
+                      await handleBuy(context, () async {
+                        return await purchaseController.buy(
                           PurchaseService.entRemoveAds,
                         );
                       });
 
-                      if (bought && context.mounted) {
-                        Navigator.pop(context, bought);
+                      if (context.mounted) {
+                        Navigator.pop(context, true);
                       }
                     },
             ),
@@ -87,9 +90,9 @@ class RemoveAdsPaywall extends ConsumerWidget {
               onPressed: purchaseState.loading
                   ? null
                   : () => Navigator.pop(context),
-              child: const Text(
-                "Plus tard",
-                style: TextStyle(color: Colors.white70),
+              child: Text(
+                I18nKeys.instance.removeAdsPaywall.later.tr(),
+                style: const TextStyle(color: Colors.white70),
               ),
             ),
 
@@ -118,9 +121,12 @@ class _Badge extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(999),
       ),
-      child: const Text(
-        "Premium",
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+      child: Text(
+        I18nKeys.instance.removeAdsPaywall.premium.tr(),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }
@@ -151,11 +157,20 @@ class _RemoveAdsPerks extends StatelessWidget {
       ),
       child: Column(
         children: [
-          perk(Icons.block_rounded, "Aucune publicité pendant le jeu"),
+          perk(
+            Icons.block_rounded,
+            I18nKeys.instance.removeAdsPaywall.perkNoAds.tr(),
+          ),
           const SizedBox(height: 8),
-          perk(Icons.groups_rounded, "Parties plus fluides en groupe"),
+          perk(
+            Icons.groups_rounded,
+            I18nKeys.instance.removeAdsPaywall.perkSmootherGames.tr(),
+          ),
           const SizedBox(height: 8),
-          perk(Icons.offline_bolt_rounded, "Achat unique, pour toujours"),
+          perk(
+            Icons.offline_bolt_rounded,
+            I18nKeys.instance.removeAdsPaywall.perkOneTimePurchase.tr(),
+          ),
         ],
       ),
     );
@@ -233,9 +248,9 @@ class _ProductTile extends StatelessWidget {
                   color: Colors.white.withOpacity(0.10),
                   borderRadius: BorderRadius.circular(999),
                 ),
-                child: const Text(
-                  "Acheté",
-                  style: TextStyle(
+                child: Text(
+                  I18nKeys.instance.removeAdsPaywall.bought.tr(),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
                   ),

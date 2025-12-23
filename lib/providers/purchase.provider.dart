@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:rollit/services/purchase.service.dart';
 
@@ -80,7 +82,7 @@ class PurchaseController extends StateNotifier<PurchaseState> {
     }
   }
 
-  void _syncFromService() async {
+  Future<void> _syncFromService() async {
     final wtfPlusProduct = await _service.getProduct(
       PurchaseService.entWtfPlus,
     );
@@ -117,23 +119,27 @@ class PurchaseController extends StateNotifier<PurchaseState> {
     );
   }
 
-  Future<void> buy(String entitlementKey) async {
+  Future<BuyResult> buy(String entitlementKey) async {
     state = state.copyWith(loading: true, error: null);
     try {
-      await _service.buy(entitlementKey);
-      _syncFromService();
+      final success = await _service.buy(entitlementKey);
+      await _syncFromService();
+      return success;
     } catch (e) {
       state = state.copyWith(loading: false, error: null);
+      return BuyResult(BuyStatus.failed, message: e.toString());
     }
   }
 
-  Future<void> restore() async {
+  Future<BuyResult> restore() async {
     state = state.copyWith(loading: true, error: null);
     try {
       await _service.restore();
-      _syncFromService();
+      await _syncFromService();
+      return BuyResult(BuyStatus.restored);
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
+      return BuyResult(BuyStatus.failed, message: e.toString());
     }
   }
 

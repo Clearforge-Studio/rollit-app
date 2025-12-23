@@ -1,11 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/providers/category.provider.dart';
 import 'package:rollit/screens/result.screen.dart';
+import 'package:rollit/services/i18n.service.dart';
 import 'package:rollit/widgets/app_background.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rollit/widgets/dice.widget.dart';
+import 'package:rollit/widgets/paywall_sheet.dart';
 import 'package:rollit/widgets/transition/slide_transition.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -75,6 +78,13 @@ class HomeScreen extends ConsumerWidget {
                     ? currentCategory.imagePath
                     : categories.first.imagePath,
                 categories: categories,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/add_players');
+                },
+                child: Text(I18nKeys.instance.home.partyMode.tr()),
               ),
             ],
           ),

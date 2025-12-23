@@ -1,0 +1,51 @@
+{
+    "home": {
+        "party_mode": "Mode Party"
+    },
+    "add_players": {
+        "title": "Ajouter des joueurs",
+        "player_name": "Nom du joueur",
+        "choose_avatar": "Choisir un avatar",
+        "start_game": "Lancer la partie"
+    },
+    "remove_ads_paywall": {
+        "title": "Jouez sans interruption 🎲",
+        "premium": "Premium",
+        "product": {
+            "title": "Supprimer les publicités",
+            "description": "Zéro pub. Juste du fun."
+        },
+        "perk": {
+            "no_ads": "Aucune publicité",
+            "smoother_games": "Parties plus fluides",
+            "one_time_purchase": "Achat unique, pas d'abonnement"
+        },
+        "bought": "Acheté",
+        "later": "Peut-être plus tard"
+    },
+    "paywall_sheet": {
+        "title": "Passe en mode Chaos ✨",
+        "premium": "Premium",
+        "perk": {
+            "unlock_packs": "Débloque des packs d’actions",
+            "one_time_purchase": "Achat unique, pas d’abonnement",
+            "no_personal_data": "Aucune donnée personnelle collectée"
+        },
+        "product": {
+            "wtf_plus": {
+                "title": "WTF+",
+                "description": "Actions plus absurdes, plus mémorables"
+            },
+            "challenge_extreme": {
+                "title": "Défis Extrême",
+                "description": "Des défis plus fous, pour les plus courageux 😈"
+            },
+            "remove_ads": {
+                "title": "Supprimer les publicités",
+                "description": "Zéro pub. Juste du fun."
+            }
+        },
+        "restore": "Restaurer les achats",
+        "bought": "Acheté"
+    }
+}

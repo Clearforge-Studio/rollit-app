@@ -1,0 +1,51 @@
+{
+    "home": {
+        "party_mode": "Party Mode"
+    },
+    "add_players": {
+        "title": "Add Players",
+        "player_name": "Player Name",
+        "choose_avatar": "Choose Avatar",
+        "start_game": "Start Game"
+    },
+    "remove_ads_paywall": {
+        "title": "Play without interruptions 🎲",
+        "premium": "Premium",
+        "product": {
+            "title": "Remove Ads",
+            "description": "Zero ads. Just fun."
+        },
+        "perk": {
+            "no_ads": "No ads",
+            "smoother_games": "Smoother games",
+            "one_time_purchase": "One-time purchase, no subscription"
+        },
+        "bought": "Purchased",
+        "later": "Maybe later"
+    },
+    "paywall_sheet": {
+        "title": "Switch to Chaos mode ✨",
+        "premium": "Premium",
+        "perk": {
+            "unlock_packs": "Unlock action packs",
+            "one_time_purchase": "One-time purchase, no subscription",
+            "no_personal_data": "No personal data collected"
+        },
+        "product": {
+            "wtf_plus": {
+                "title": "WTF+",
+                "description": "More absurd, memorable actions"
+            },
+            "challenge_extreme": {
+                "title": "Extreme Challenges",
+                "description": "Fiercer challenges for the brave 😈"
+            },
+            "remove_ads": {
+                "title": "Remove Ads",
+                "description": "Zero ads. Just fun."
+            }
+        },
+        "restore": "Restore purchases",
+        "bought": "Purchased"
+    }
+}
