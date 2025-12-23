@@ -21,7 +21,6 @@ class AddPlayersScreen extends ConsumerStatefulWidget {
   ConsumerState<AddPlayersScreen> createState() => _AddPlayersScreenState();
 }
 
-
 class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
     with TickerProviderStateMixin {
   static const int _maxPlayers = 8;
@@ -121,8 +120,11 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                   children: [
                     PlayersHeader(
                       label: I18nKeys.instance.addPlayers.playersLabel.tr(),
-                      tooltipMessage:
-                          I18nKeys.instance.addPlayers.maxPlayersHint.tr(),
+                      tooltipMessage: I18nKeys
+                          .instance
+                          .addPlayers
+                          .maxPlayersHint
+                          .tr(),
                       currentCount: partyState.players.length,
                       maxCount: _maxPlayers,
                     ),
@@ -153,8 +155,8 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                       context,
                       selectedAvatarIndex: selectedAvatarIndex,
                     ),
-                    playerNameLabel:
-                        I18nKeys.instance.addPlayers.playerName.tr(),
+                    playerNameLabel: I18nKeys.instance.addPlayers.playerName
+                        .tr(),
                     onRemove: () {
                       setState(() {
                         _draftAvatarKeys.remove(draftId);
@@ -212,7 +214,7 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                 StartGameButton(
                   label: I18nKeys.instance.addPlayers.startGame.tr(),
                   enabled: canStartGame,
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pushNamed(context, '/party_mode'),
                 ),
             ],
           ),

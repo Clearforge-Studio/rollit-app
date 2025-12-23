@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/models/dice_action.model.dart';
@@ -23,6 +24,10 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
   String _categoryLabel = '';
   String _categoryImagePath = '';
   String _actionText = '';
+  List<ActionConstraint> _actionConstraints = [];
+  int? _timerDurationSeconds;
+  int? _timerRemainingSeconds;
+  Timer? _timer;
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -46,6 +51,71 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
     _loadData();
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  ActionConstraint? _getDurationConstraint(
+    List<ActionConstraint> constraints,
+  ) {
+    for (final constraint in constraints) {
+      if (constraint.type == 'duration') {
+        return constraint;
+      }
+    }
+    return null;
+  }
+
+  void _resetTimerForConstraints(List<ActionConstraint> constraints) {
+    _timer?.cancel();
+    _timer = null;
+
+    final durationConstraint = _getDurationConstraint(constraints);
+    if (durationConstraint == null) {
+      setState(() {
+        _timerDurationSeconds = null;
+        _timerRemainingSeconds = null;
+      });
+      return;
+    }
+
+    setState(() {
+      _timerDurationSeconds = durationConstraint.value;
+      _timerRemainingSeconds = null;
+    });
+  }
+
+  void _startTimer() {
+    final durationSeconds = _timerDurationSeconds;
+    if (durationSeconds == null || durationSeconds <= 0) {
+      return;
+    }
+
+    _timer?.cancel();
+    _timer = null;
+
+    setState(() {
+      _timerRemainingSeconds = durationSeconds;
+    });
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      setState(() {
+        final next = (_timerRemainingSeconds ?? 0) - 1;
+        _timerRemainingSeconds = next.clamp(0, durationSeconds);
+        if ((_timerRemainingSeconds ?? 0) <= 0) {
+          timer.cancel();
+        }
+      });
+    });
+  }
+
   Future<void> _loadData() async {
     final categories = ref.read(categoryProvider.notifier).getCategories();
     final actions = ref.read(actionProvider).actions;
@@ -59,11 +129,15 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
 
     final action = categoryActions[_random.nextInt(categoryActions.length)];
 
-    _categories = categories;
-    _actions = actions;
-    _categoryLabel = category.label;
-    _categoryImagePath = category.imagePath;
-    _actionText = action;
+    setState(() {
+      _categories = categories;
+      _actions = actions;
+      _categoryLabel = category.label;
+      _categoryImagePath = category.imagePath;
+      _actionText = action.text;
+      _actionConstraints = action.constraints;
+    });
+    _resetTimerForConstraints(action.constraints);
 
     _controller.forward(from: 0);
   }
@@ -81,8 +155,10 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
     setState(() {
       _categoryLabel = category.label;
       _categoryImagePath = category.imagePath;
-      _actionText = action;
+      _actionText = action.text;
+      _actionConstraints = action.constraints;
     });
+    _resetTimerForConstraints(action.constraints);
   }
 
   @override
@@ -127,6 +203,10 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                             )
                           : null,
                       actionText: _actionText,
+                      constraints: _actionConstraints,
+                      timerDurationSeconds: _timerDurationSeconds,
+                      timerRemainingSeconds: _timerRemainingSeconds,
+                      onStartTimer: _startTimer,
                     ),
                   ),
                 ),
@@ -140,10 +220,15 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                     _roll();
                   },
                   onRollStart: () {
+                    _timer?.cancel();
+                    _timer = null;
                     setState(() {
                       _categoryLabel = '';
                       _categoryImagePath = '';
                       _actionText = '';
+                      _actionConstraints = [];
+                      _timerDurationSeconds = null;
+                      _timerRemainingSeconds = null;
                     });
                   },
                   hideDiceInitially: false,

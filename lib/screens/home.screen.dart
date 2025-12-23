@@ -6,7 +6,6 @@ import 'package:rollit/widgets/app_background.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rollit/widgets/dice.widget.dart';
-import 'package:rollit/widgets/paywall_sheet.dart';
 import 'package:rollit/widgets/transition/slide_transition.dart';
 import 'package:easy_localization/easy_localization.dart';
 
