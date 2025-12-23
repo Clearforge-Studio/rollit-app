@@ -4,7 +4,7 @@
         "actions": [
             {
                 "id": "imitation_001",
-                "text": "Au ralenti: cours sur place 10 secondes comme dans un film d’action.",
+                "text": "actions.imitation.imitation_001",
                 "constraints": [
                     {
                         "type": "duration",
@@ -14,7 +14,7 @@
             },
             {
                 "id": "imitation_002",
-                "text": "Robot qui bug: parle 10 secondes avec des coupures et des gestes saccadés.",
+                "text": "actions.imitation.imitation_002",
                 "constraints": [
                     {
                         "type": "duration",
@@ -24,92 +24,92 @@
             },
             {
                 "id": "imitation_003",
-                "text": "Stress max: tu cherches tes clés en panique, mais tu restes poli.",
+                "text": "actions.imitation.imitation_003",
                 "constraints": []
             },
             {
                 "id": "imitation_004",
-                "text": "Chien qui rêve: bruitages + pattes qui s’agitent (sans te lever).",
+                "text": "actions.imitation.imitation_004",
                 "constraints": []
             },
             {
                 "id": "imitation_005",
-                "text": "Prof très sérieux: explique un truc ridicule comme si c’était au bac.",
+                "text": "actions.imitation.imitation_005",
                 "constraints": []
             },
             {
                 "id": "imitation_006",
-                "text": "Héros de jeu vidéo: tu découvres un passage secret.",
+                "text": "actions.imitation.imitation_006",
                 "constraints": []
             },
             {
                 "id": "imitation_007",
-                "text": "Chat en discours: fais un discours solennel… pour réclamer des croquettes.",
+                "text": "actions.imitation.imitation_007",
                 "constraints": []
             },
             {
                 "id": "imitation_008",
-                "text": "Café brûlant: tu gardes ton calme mais tu souffres intérieurement.",
+                "text": "actions.imitation.imitation_008",
                 "constraints": []
             },
             {
                 "id": "imitation_009",
-                "text": "Poule en réflexion: tu cogites comme si tu inventais la science.",
+                "text": "actions.imitation.imitation_009",
                 "constraints": []
             },
             {
                 "id": "imitation_010",
-                "text": "Fantôme triste: tu traverses la pièce en mode mélodrame silencieux.",
+                "text": "actions.imitation.imitation_010",
                 "constraints": []
             },
             {
                 "id": "imitation_011",
-                "text": "Poisson hors de l’eau: panique + respiration dramatique (sans crier).",
+                "text": "actions.imitation.imitation_011",
                 "constraints": []
             },
             {
                 "id": "imitation_012",
-                "text": "Enfant surexcité: tu annonces une nouvelle incroyable à tout le monde.",
+                "text": "actions.imitation.imitation_012",
                 "constraints": []
             },
             {
                 "id": "imitation_013",
-                "text": "Super-héros avant combat: pose épique + phrase épique (1 seule phrase).",
+                "text": "actions.imitation.imitation_013",
                 "constraints": []
             },
             {
                 "id": "imitation_014",
-                "text": "Explorateur: tu découvres un trésor et tu fais comme si c’était normal.",
+                "text": "actions.imitation.imitation_014",
                 "constraints": []
             },
             {
                 "id": "imitation_015",
-                "text": "Lego: marche sur place et improvise une insulte très polie.",
+                "text": "actions.imitation.imitation_015",
                 "constraints": []
             },
             {
                 "id": "imitation_016",
-                "text": "Pirate perdu: tu cherches ta carte au trésor… et tu accuses quelqu’un.",
+                "text": "actions.imitation.imitation_016",
                 "constraints": []
             },
             {
                 "id": "imitation_017",
-                "text": "Présentateur TV: annonce un événement banal comme une breaking news.",
+                "text": "actions.imitation.imitation_017",
                 "constraints": []
             },
             {
                 "id": "imitation_018",
-                "text": "Vampire: essaye de parler avec des dents beaucoup trop longues.",
+                "text": "actions.imitation.imitation_018",
                 "constraints": []
             },
             {
                 "id": "imitation_019",
-                "text": "Magicien raté: ton tour échoue, mais tu fais comme si c’était voulu.",
+                "text": "actions.imitation.imitation_019",
                 "constraints": []
             },
             {
                 "id": "imitation_020",
-                "text": "Éternuement bloqué: tu luttes 10 secondes, puis fausse victoire.",
+                "text": "actions.imitation.imitation_020",
                 "constraints": [
                     {
                         "type": "duration",
@@ -119,17 +119,17 @@
             },
             {
                 "id": "imitation_021",
-                "text": "Athlète: tu célèbres… puis tu réalises que tu as perdu (slow motion).",
+                "text": "actions.imitation.imitation_021",
                 "constraints": []
             },
             {
                 "id": "imitation_022",
-                "text": "Espion discret: tu te faufiles comme si tu étais suivi (regards partout, silence).",
+                "text": "actions.imitation.imitation_022",
                 "constraints": []
             },
             {
                 "id": "imitation_023",
-                "text": "Homme politique: tu réponds à une question simple en évitant de répondre (10 secondes).",
+                "text": "actions.imitation.imitation_023",
                 "constraints": [
                     {
                         "type": "duration",
@@ -144,12 +144,12 @@
         "actions": [
             {
                 "id": "challenge_001",
-                "text": "Raconte un moment un peu gênant.",
+                "text": "actions.challenge.challenge_001",
                 "constraints": []
             },
             {
                 "id": "challenge_002",
-                "text": "Pose de yoga improbable 15 secondes (le groupe note la créativité).",
+                "text": "actions.challenge.challenge_002",
                 "constraints": [
                     {
                         "type": "duration",
@@ -159,12 +159,12 @@
             },
             {
                 "id": "challenge_003",
-                "text": "Fais une blague: objectif = au moins un sourire.",
+                "text": "actions.challenge.challenge_003",
                 "constraints": []
             },
             {
                 "id": "challenge_004",
-                "text": "Déclaration d’amour dramatique à un objet choisi par le groupe. (15 secondes)",
+                "text": "actions.challenge.challenge_004",
                 "constraints": [
                     {
                         "type": "duration",
@@ -174,7 +174,7 @@
             },
             {
                 "id": "challenge_005",
-                "text": "Cuillère sur le nez 20 secondes (interdit de la tenir avec les mains).",
+                "text": "actions.challenge.challenge_005",
                 "constraints": [
                     {
                         "type": "duration",
@@ -184,12 +184,12 @@
             },
             {
                 "id": "challenge_006",
-                "text": "8 pompes moches autorisées (Lite: 5 ou contre le mur).",
+                "text": "actions.challenge.challenge_006",
                 "constraints": []
             },
             {
                 "id": "challenge_007",
-                "text": "Statue 20 secondes pendant que le groupe tente de te faire rire.",
+                "text": "actions.challenge.challenge_007",
                 "constraints": [
                     {
                         "type": "duration",
@@ -199,7 +199,7 @@
             },
             {
                 "id": "challenge_008",
-                "text": "Copie la posture de quelqu’un 10 secondes, au millimètre.",
+                "text": "actions.challenge.challenge_008",
                 "constraints": [
                     {
                         "type": "duration",
@@ -209,7 +209,7 @@
             },
             {
                 "id": "challenge_009",
-                "text": "Note tenue: le groupe chronomètre (max 20 secondes).",
+                "text": "actions.challenge.challenge_009",
                 "constraints": [
                     {
                         "type": "duration",
@@ -219,22 +219,22 @@
             },
             {
                 "id": "challenge_010",
-                "text": "Alphabet à l’envers… de Z à P seulement. (Lite: Z à T)",
+                "text": "actions.challenge.challenge_010",
                 "constraints": []
             },
             {
                 "id": "challenge_011",
-                "text": "Diction: répète 3 fois 'Les chaussettes sèches de Serge' sans te tromper.",
+                "text": "actions.challenge.challenge_011",
                 "constraints": []
             },
             {
                 "id": "challenge_012",
-                "text": "Mémoire: répète 6 mots choisis par le groupe. (Lite: 4)",
+                "text": "actions.challenge.challenge_012",
                 "constraints": []
             },
             {
                 "id": "challenge_013",
-                "text": "Jonglage invisible 15 secondes… mais très sérieux.",
+                "text": "actions.challenge.challenge_013",
                 "constraints": [
                     {
                         "type": "duration",
@@ -244,7 +244,7 @@
             },
             {
                 "id": "challenge_014",
-                "text": "Bouteille sur la tête 15 secondes sans tomber (Lite: 10 secondes).",
+                "text": "actions.challenge.challenge_014",
                 "constraints": [
                     {
                         "type": "duration",
@@ -255,12 +255,12 @@
             },
             {
                 "id": "challenge_015",
-                "text": "Main non-dominante: signe ton prénom le plus joliment possible.",
+                "text": "actions.challenge.challenge_015",
                 "constraints": []
             },
             {
                 "id": "challenge_016",
-                "text": "Anti-rire: eye contact 15 secondes sans sourire (Lite: 10 secondes).",
+                "text": "actions.challenge.challenge_016",
                 "constraints": [
                     {
                         "type": "duration",
@@ -271,12 +271,12 @@
             },
             {
                 "id": "challenge_017",
-                "text": "Réponds à une question du groupe en exactement 7 mots. (Lite: 5)",
+                "text": "actions.challenge.challenge_017",
                 "constraints": []
             },
             {
                 "id": "challenge_018",
-                "text": "Vitesse: réponds à 3 questions du groupe en 10 secondes sans hésiter (Lite: 2 questions).",
+                "text": "actions.challenge.challenge_018",
                 "constraints": [
                     {
                         "type": "duration",
@@ -286,12 +286,12 @@
             },
             {
                 "id": "challenge_019",
-                "text": "Mémoire flash: retiens 5 chiffres dits par le groupe et répète-les. (Lite: 3 chiffres)",
+                "text": "actions.challenge.challenge_019",
                 "constraints": []
             },
             {
                 "id": "challenge_020",
-                "text": "Défi catégorie: cite 6 animaux en 10 secondes (Lite: 4 en 10 secondes).",
+                "text": "actions.challenge.challenge_020",
                 "constraints": [
                     {
                         "type": "duration",
@@ -301,12 +301,12 @@
             },
             {
                 "id": "challenge_021",
-                "text": "Défi alphabet: dis une phrase où chaque mot commence par la même lettre (lettre choisie). (Lite: 3 mots)",
+                "text": "actions.challenge.challenge_021",
                 "constraints": []
             },
             {
                 "id": "challenge_022",
-                "text": "Défi question piège: réponds à une question du groupe en commençant par « Évidemment… » puis improvise (10 secondes).",
+                "text": "actions.challenge.challenge_022",
                 "constraints": [
                     {
                         "type": "duration",
@@ -316,7 +316,7 @@
             },
             {
                 "id": "challenge_023",
-                "text": "Défi classement: le groupe te donne 3 choses, tu dois les classer du plus utile au plus inutile en 5 secondes. (Lite: 8 secondes)",
+                "text": "actions.challenge.challenge_023",
                 "constraints": [
                     {
                         "type": "duration",
@@ -327,7 +327,7 @@
             },
             {
                 "id": "challenge_024",
-                "text": "Défi duel express: choisis quelqu’un, faites pierre-feuille-ciseaux. Le perdant fait une révérence très sérieuse.",
+                "text": "actions.challenge.challenge_024",
                 "constraints": []
             }
         ]
@@ -337,7 +337,7 @@
         "actions": [
             {
                 "id": "fun_001",
-                "text": "Animal: lequel serais-tu ? Pourquoi? (15 secondes).",
+                "text": "actions.fun.fun_001",
                 "constraints": [
                     {
                         "type": "duration",
@@ -347,7 +347,7 @@
             },
             {
                 "id": "fun_002",
-                "text": "Ton talent caché… mais tu dois le vendre comme une pub. (20 secondes)",
+                "text": "actions.fun.fun_002",
                 "constraints": [
                     {
                         "type": "duration",
@@ -357,7 +357,7 @@
             },
             {
                 "id": "fun_003",
-                "text": "Ton dernier fou rire, raconte-le en 20 secondes.",
+                "text": "actions.fun.fun_003",
                 "constraints": [
                     {
                         "type": "duration",
@@ -367,17 +367,17 @@
             },
             {
                 "id": "fun_004",
-                "text": "Super-pouvoir: lequel ? Et quel serait ton défaut ridicule ?",
+                "text": "actions.fun.fun_004",
                 "constraints": []
             },
             {
                 "id": "fun_005",
-                "text": "Nourriture daily: laquelle ? Interdit de dire 'pizza'.",
+                "text": "actions.fun.fun_005",
                 "constraints": []
             },
             {
                 "id": "fun_006",
-                "text": "Ton pire achat impulsif, explique-le en 15 secondes.",
+                "text": "actions.fun.fun_006",
                 "constraints": [
                     {
                         "type": "duration",
@@ -387,17 +387,17 @@
             },
             {
                 "id": "fun_007",
-                "text": "Personnage de film: lequel te ressemble ? Pourquoi?",
+                "text": "actions.fun.fun_007",
                 "constraints": []
             },
             {
                 "id": "fun_008",
-                "text": "Ton défaut le plus drôle?",
+                "text": "actions.fun.fun_008",
                 "constraints": []
             },
             {
                 "id": "fun_009",
-                "text": "Ton obsession du moment: pitch de 7 secondes.",
+                "text": "actions.fun.fun_009",
                 "constraints": [
                     {
                         "type": "duration",
@@ -407,17 +407,17 @@
             },
             {
                 "id": "fun_010",
-                "text": "Le truc le plus bizarre que tu as mangé: note-le sur 10.",
+                "text": "actions.fun.fun_010",
                 "constraints": []
             },
             {
                 "id": "fun_011",
-                "text": "Meilleure excuse inventée: joue-la comme au tribunal.",
+                "text": "actions.fun.fun_011",
                 "constraints": []
             },
             {
                 "id": "fun_012",
-                "text": "Dessert: lequel serais-tu? Pourquoi? (15 secondes).",
+                "text": "actions.fun.fun_012",
                 "constraints": [
                     {
                         "type": "duration",
@@ -427,17 +427,17 @@
             },
             {
                 "id": "fun_013",
-                "text": "Dîner avec une célébrité: qui ? Et de quoi vous parlez ? (1 sujet)",
+                "text": "actions.fun.fun_013",
                 "constraints": []
             },
             {
                 "id": "fun_014",
-                "text": "Un truc drôle de l’école: version courte, punchline obligatoire.",
+                "text": "actions.fun.fun_014",
                 "constraints": []
             },
             {
                 "id": "fun_015",
-                "text": "Chanson honteuse: fredonne 2 secondes le refrain.",
+                "text": "actions.fun.fun_015",
                 "constraints": [
                     {
                         "type": "duration",
@@ -447,17 +447,17 @@
             },
             {
                 "id": "fun_016",
-                "text": "Un truc entendu dans les transports: raconte-le en mode reportage.",
+                "text": "actions.fun.fun_016",
                 "constraints": []
             },
             {
                 "id": "fun_017",
-                "text": "Ton skill inutile préféré?",
+                "text": "actions.fun.fun_017",
                 "constraints": []
             },
             {
                 "id": "fun_018",
-                "text": "Meilleure imitation d’animal: 5 secondes chrono.",
+                "text": "actions.fun.fun_018",
                 "constraints": [
                     {
                         "type": "duration",
@@ -467,7 +467,7 @@
             },
             {
                 "id": "fun_019",
-                "text": "Invente un nouveau sport en 10 secondes: nom + règle.",
+                "text": "actions.fun.fun_019",
                 "constraints": [
                     {
                         "type": "duration",
@@ -477,22 +477,22 @@
             },
             {
                 "id": "fun_020",
-                "text": "Ton autobiographie en 3 mots.",
+                "text": "actions.fun.fun_020",
                 "constraints": []
             },
             {
                 "id": "fun_021",
-                "text": "Ton 'talent nul mais utile': donne un exemple concret.",
+                "text": "actions.fun.fun_021",
                 "constraints": []
             },
             {
                 "id": "fun_022",
-                "text": "Si ton téléphone parlait: quelle plainte il ferait sur toi ? (polie)",
+                "text": "actions.fun.fun_022",
                 "constraints": []
             },
             {
                 "id": "fun_023",
-                "text": "Si tu étais une appli: à quoi tu sers + ton bug le plus drôle.",
+                "text": "actions.fun.fun_023",
                 "constraints": []
             }
         ]
@@ -502,7 +502,7 @@
         "actions": [
             {
                 "id": "wtf_001",
-                "text": "Bruit étrange: fais-le sans réfléchir. 2 secondes. Stop.",
+                "text": "actions.wtf.wtf_001",
                 "constraints": [
                     {
                         "type": "duration",
@@ -512,7 +512,7 @@
             },
             {
                 "id": "wtf_002",
-                "text": "Langue alien: parle 10 secondes, puis traduis en français très sérieusement.",
+                "text": "actions.wtf.wtf_002",
                 "constraints": [
                     {
                         "type": "duration",
@@ -522,52 +522,52 @@
             },
             {
                 "id": "wtf_003",
-                "text": "Donne un nom à ta main gauche, puis présente-la au groupe.",
+                "text": "actions.wtf.wtf_003",
                 "constraints": []
             },
             {
                 "id": "wtf_004",
-                "text": "Présente-toi comme un méchant de film: 1 phrase + 1 rire diabolique.",
+                "text": "actions.wtf.wtf_004",
                 "constraints": []
             },
             {
                 "id": "wtf_005",
-                "text": "Décris une salade comme un drame épique… en chuchotant.",
+                "text": "actions.wtf.wtf_005",
                 "constraints": []
             },
             {
                 "id": "wtf_006",
-                "text": "Combat invisible: bats-toi contre un fantôme, mais au ralenti.",
+                "text": "actions.wtf.wtf_006",
                 "constraints": []
             },
             {
                 "id": "wtf_007",
-                "text": "Alphabet: récite de A à Z le plus rapidement possible en replaçant les voyelles par 'banana' sans te tromper.",
+                "text": "actions.wtf.wtf_007",
                 "constraints": []
             },
             {
                 "id": "wtf_008",
-                "text": "Bug IRL: freeze 3 fois d’affilée comme un PNJ.",
+                "text": "actions.wtf.wtf_008",
                 "constraints": []
             },
             {
                 "id": "wtf_009",
-                "text": "Ta journée vue par un alien: 2 phrases max.",
+                "text": "actions.wtf.wtf_009",
                 "constraints": []
             },
             {
                 "id": "wtf_010",
-                "text": "Cri d’horreur… version silencieuse (tu mimes un cri).",
+                "text": "actions.wtf.wtf_010",
                 "constraints": []
             },
             {
                 "id": "wtf_011",
-                "text": "Objet relique: choisis un objet et bénis-le comme un prêtre.",
+                "text": "actions.wtf.wtf_011",
                 "constraints": []
             },
             {
                 "id": "wtf_012",
-                "text": "Danse anti-mauvais esprits: 10 secondes, très sérieux.",
+                "text": "actions.wtf.wtf_012",
                 "constraints": [
                     {
                         "type": "duration",
@@ -577,47 +577,47 @@
             },
             {
                 "id": "wtf_013",
-                "text": "Conversation sérieuse avec une plante: elle te juge.",
+                "text": "actions.wtf.wtf_013",
                 "constraints": []
             },
             {
                 "id": "wtf_014",
-                "text": "Théorie chaussettes: pourquoi elles disparaissent toujours ? 1 argument.",
+                "text": "actions.wtf.wtf_014",
                 "constraints": []
             },
             {
                 "id": "wtf_015",
-                "text": "Slogan: invente une marque et un slogan pour un objet banal.",
+                "text": "actions.wtf.wtf_015",
                 "constraints": []
             },
             {
                 "id": "wtf_016",
-                "text": "Météo des émotions: annonce 3 émotions comme une météo.",
+                "text": "actions.wtf.wtf_016",
                 "constraints": []
             },
             {
                 "id": "wtf_017",
-                "text": "Pourquoi les escaliers sont des pièges de chats: prouve-le en 1 argument.",
+                "text": "actions.wtf.wtf_017",
                 "constraints": []
             },
             {
                 "id": "wtf_018",
-                "text": "Pub sérieuse pour l’air: 1 slogan + 1 geste.",
+                "text": "actions.wtf.wtf_018",
                 "constraints": []
             },
             {
                 "id": "wtf_019",
-                "text": "Tutoriel catastrophique: explique 'ouvrir une porte' mais rate tout.",
+                "text": "actions.wtf.wtf_019",
                 "constraints": []
             },
             {
                 "id": "wtf_020",
-                "text": "Breaking news: annonce un événement minuscule comme si c’était historique.",
+                "text": "actions.wtf.wtf_020",
                 "constraints": []
             },
             {
                 "id": "wtf_021",
-                "text": "Procès express: accuse un objet et rends le verdict en 10 secondes.",
+                "text": "actions.wtf.wtf_021",
                 "constraints": [
                     {
                         "type": "duration",
@@ -632,7 +632,7 @@
         "actions": [
             {
                 "id": "wtf_plus_001",
-                "text": "Rituel d’invocation: le groupe choisit l’entité (pigeon/frigo/patate). 20 secondes.",
+                "text": "actions.wtf_plus.wtf_plus_001",
                 "constraints": [
                     {
                         "type": "duration",
@@ -642,12 +642,12 @@
             },
             {
                 "id": "wtf_plus_002",
-                "text": "Théorie du complot: les chaussettes. Donne 2 'preuves' + une conclusion.",
+                "text": "actions.wtf_plus.wtf_plus_002",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_003",
-                "text": "Discours sérieux sur un sujet ridicule imposé par le groupe (15 secondes).",
+                "text": "actions.wtf_plus.wtf_plus_003",
                 "constraints": [
                     {
                         "type": "duration",
@@ -657,57 +657,57 @@
             },
             {
                 "id": "wtf_plus_004",
-                "text": "Histoire absurde: utilise 3 objets de la pièce (nommés par le groupe).",
+                "text": "actions.wtf_plus.wtf_plus_004",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_005",
-                "text": "Déclaration d’amour à un objet: le groupe choisit l’objet + l’émotion.",
+                "text": "actions.wtf_plus.wtf_plus_005",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_006",
-                "text": "Film d’horreur: mime une scène, le groupe fait les bruitages.",
+                "text": "actions.wtf_plus.wtf_plus_006",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_007",
-                "text": "Robot découvre les émotions: tu en découvres 3, une est inventée.",
+                "text": "actions.wtf_plus.wtf_plus_007",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_008",
-                "text": "Pub TV produit absurde: le groupe choisit le produit, tu fais le spot.",
+                "text": "actions.wtf_plus.wtf_plus_008",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_009",
-                "text": "Yoga étrange: pose + nom de la pose (style 'Croissant du chaos').",
+                "text": "actions.wtf_plus.wtf_plus_009",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_010",
-                "text": "Porte imaginaire: salue le roi des patates et demande une faveur.",
+                "text": "actions.wtf_plus.wtf_plus_010",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_011",
-                "text": "Conversation sérieuse avec ton pied: ton pied te donne une mission.",
+                "text": "actions.wtf_plus.wtf_plus_011",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_012",
-                "text": "Président du frigo: promets 3 lois. Le groupe vote 'élu/pas élu'.",
+                "text": "actions.wtf_plus.wtf_plus_012",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_013",
-                "text": "Recette qui sauve ou détruit l’humanité: 3 ingrédients + effet final.",
+                "text": "actions.wtf_plus.wtf_plus_013",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_014",
-                "text": "Prophétie: 3 mots donnés par le groupe, 20 secondes de prophétie.",
+                "text": "actions.wtf_plus.wtf_plus_014",
                 "constraints": [
                     {
                         "type": "duration",
@@ -717,17 +717,17 @@
             },
             {
                 "id": "wtf_plus_015",
-                "text": "Vendeur illégal: vends un objet comme s’il était interdit tellement il est puissant.",
+                "text": "actions.wtf_plus.wtf_plus_015",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_016",
-                "text": "Insulte polie en langage secret: puis traduis mot à mot.",
+                "text": "actions.wtf_plus.wtf_plus_016",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_017",
-                "text": "Trailer: 'La revanche des chaussettes' en 15 secondes, ultra sérieux.",
+                "text": "actions.wtf_plus.wtf_plus_017",
                 "constraints": [
                     {
                         "type": "duration",
@@ -737,12 +737,12 @@
             },
             {
                 "id": "wtf_plus_018",
-                "text": "Interview: tu es un objet, le groupe pose 2 questions, tu réponds sans sortir du rôle.",
+                "text": "actions.wtf_plus.wtf_plus_018",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_019",
-                "text": "Documentaire: décris un humain (toi) comme une espèce sauvage (20 secondes).",
+                "text": "actions.wtf_plus.wtf_plus_019",
                 "constraints": [
                     {
                         "type": "duration",
@@ -752,12 +752,12 @@
             },
             {
                 "id": "wtf_plus_020",
-                "text": "Débat absurde: défends 'les chaises dominent le monde' avec 1 argument imparable.",
+                "text": "actions.wtf_plus.wtf_plus_020",
                 "constraints": []
             },
             {
                 "id": "wtf_plus_021",
-                "text": "Portail miroir: explique ce qu’il y a derrière… mais tu dois mentir avec conviction.",
+                "text": "actions.wtf_plus.wtf_plus_021",
                 "constraints": []
             }
         ]
@@ -767,12 +767,12 @@
         "actions": [
             {
                 "id": "mini_game_001",
-                "text": "1v1 Pierre-Feuille-Ciseaux avec la personne à ta droite.",
+                "text": "actions.mini_game.mini_game_001",
                 "constraints": []
             },
             {
                 "id": "mini_game_002",
-                "text": "Clignement: le premier qui cligne perd (max 15 secondes).",
+                "text": "actions.mini_game.mini_game_002",
                 "constraints": [
                     {
                         "type": "duration",
@@ -782,7 +782,7 @@
             },
             {
                 "id": "mini_game_003",
-                "text": "Sourire: le premier qui sourit perd (max 15 secondes).",
+                "text": "actions.mini_game.mini_game_003",
                 "constraints": [
                     {
                         "type": "duration",
@@ -792,22 +792,22 @@
             },
             {
                 "id": "mini_game_004",
-                "text": "Devine l’animal: la personne de ton choix pense à un animal, 3 questions oui/non. Tu dois deviner.",
+                "text": "actions.mini_game.mini_game_004",
                 "constraints": []
             },
             {
                 "id": "mini_game_005",
-                "text": "Chasse lettre: trouve un objet visible qui commence par la lettre choisie par le groupe.",
+                "text": "actions.mini_game.mini_game_005",
                 "constraints": []
             },
             {
                 "id": "mini_game_006",
-                "text": "Échange de siège: change de place avec quelqu’un (sans parler).",
+                "text": "actions.mini_game.mini_game_006",
                 "constraints": []
             },
             {
                 "id": "mini_game_007",
-                "text": "Regard: fixe quelqu’un 10 secondes, si l’un rit = perdu.",
+                "text": "actions.mini_game.mini_game_007",
                 "constraints": [
                     {
                         "type": "duration",
@@ -817,12 +817,12 @@
             },
             {
                 "id": "mini_game_008",
-                "text": "Film en 5 mots: fais deviner un film (pas de noms propres).",
+                "text": "actions.mini_game.mini_game_008",
                 "constraints": []
             },
             {
                 "id": "mini_game_009",
-                "text": "3 choses rouges: en moins de 7 secondes.",
+                "text": "actions.mini_game.mini_game_009",
                 "constraints": [
                     {
                         "type": "duration",
@@ -832,7 +832,7 @@
             },
             {
                 "id": "mini_game_010",
-                "text": "Dernier à dire 'chat' perd (gage: statue 5 secondes).",
+                "text": "actions.mini_game.mini_game_010",
                 "constraints": [
                     {
                         "type": "duration",
@@ -842,12 +842,12 @@
             },
             {
                 "id": "mini_game_011",
-                "text": "Objet rond: le premier qui pointe un objet rond visible gagne.",
+                "text": "actions.mini_game.mini_game_011",
                 "constraints": []
             },
             {
                 "id": "mini_game_012",
-                "text": "Dessin flash: dessine quelqu'un du groupe en 10 secondes (le groupe devine).",
+                "text": "actions.mini_game.mini_game_012",
                 "constraints": [
                     {
                         "type": "duration",
@@ -857,27 +857,27 @@
             },
             {
                 "id": "mini_game_013",
-                "text": "3 anecdotes: une est fausse, le groupe vote laquelle.",
+                "text": "actions.mini_game.mini_game_013",
                 "constraints": []
             },
             {
                 "id": "mini_game_014",
-                "text": "Mot 5 lettres: le premier qui dit un mot de 5 lettres (pas de nom propre) gagne.",
+                "text": "actions.mini_game.mini_game_014",
                 "constraints": []
             },
             {
                 "id": "mini_game_015",
-                "text": "Phrase imposée: fais une phrase avec 3 mots donnés par le groupe sans hésiter.",
+                "text": "actions.mini_game.mini_game_015",
                 "constraints": []
             },
             {
                 "id": "mini_game_016",
-                "text": "Objet bleu: le premier qui pointe un objet bleu visible gagne.",
+                "text": "actions.mini_game.mini_game_016",
                 "constraints": []
             },
             {
                 "id": "mini_game_017",
-                "text": "Lettre: en 10 secondes, cite 3 mots qui commencent par la lettre donnée par le groupe.",
+                "text": "actions.mini_game.mini_game_017",
                 "constraints": [
                     {
                         "type": "duration",
@@ -887,7 +887,7 @@
             },
             {
                 "id": "mini_game_018",
-                "text": "Thème: le groupe choisit un thème (ex: fruits), tu dois citer 5 éléments en 10 secondes.",
+                "text": "actions.mini_game.mini_game_018",
                 "constraints": [
                     {
                         "type": "duration",
@@ -897,7 +897,7 @@
             },
             {
                 "id": "mini_game_019",
-                "text": "Mini-quiz: dis un mensonge sur toi, le groupe vote vrai/faux.",
+                "text": "actions.mini_game.mini_game_019",
                 "constraints": []
             }
         ]
@@ -907,7 +907,7 @@
         "actions": [
             {
                 "id": "challenge_extreme_001",
-                "text": "Alphabet tordu: dis l’alphabet en sautant une lettre sur deux pendant 10 secondes (sans te tromper).",
+                "text": "actions.challenge_extreme.challenge_extreme_001",
                 "constraints": [
                     {
                         "type": "duration",
@@ -917,12 +917,12 @@
             },
             {
                 "id": "challenge_extreme_002",
-                "text": "Phrase parfaite: réponds à une question du groupe en exactement 8 mots. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_002",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_003",
-                "text": "Sans 'euh': raconte une mini-histoire en 12 secondes sans dire « euh », « bah » ou « genre ». Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_003",
                 "constraints": [
                     {
                         "type": "duration",
@@ -932,7 +932,7 @@
             },
             {
                 "id": "challenge_extreme_004",
-                "text": "Lettre interdite: raconte un truc sur toi en 15 secondes sans utiliser la lettre 'A'. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_004",
                 "constraints": [
                     {
                         "type": "duration",
@@ -942,12 +942,12 @@
             },
             {
                 "id": "challenge_extreme_005",
-                "text": "Vérité contrôlée: dis un truc vrai sur toi en 7 mots maximum. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_005",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_006",
-                "text": "Eye contact + silence: fixe quelqu’un 10 secondes, puis garde 5 secondes de silence total. Ne ris pas.",
+                "text": "actions.challenge_extreme.challenge_extreme_006",
                 "constraints": [
                     {
                         "type": "duration",
@@ -958,7 +958,7 @@
             },
             {
                 "id": "challenge_extreme_007",
-                "text": "Compliment + pause: fais un compliment très précis (pas sur le physique), puis 5 secondes de silence en le regardant.",
+                "text": "actions.challenge_extreme.challenge_extreme_007",
                 "constraints": [
                     {
                         "type": "duration",
@@ -968,12 +968,12 @@
             },
             {
                 "id": "challenge_extreme_008",
-                "text": "Mémoire sous sabotage: retiens 10 mots. Le groupe te pose 5 questions. Tu dois réciter les 10 mots dans l’ordre. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_008",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_009",
-                "text": "Merci uniquement: pendant 15 secondes, réponds à tout uniquement par « merci ». Ton sérieux obligatoire.",
+                "text": "actions.challenge_extreme.challenge_extreme_009",
                 "constraints": [
                     {
                         "type": "duration",
@@ -983,32 +983,32 @@
             },
             {
                 "id": "challenge_extreme_010",
-                "text": "Souffle extrême: tiens une note chantée le plus longtemps possible pendant que le groupe chronomètre.",
+                "text": "actions.challenge_extreme.challenge_extreme_010",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_011",
-                "text": "Retiens une phrase de 12 mots inventée par le groupe et répète-la sans erreur.",
+                "text": "actions.challenge_extreme.challenge_extreme_011",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_012",
-                "text": "Mémoire minute: le groupe te donne 5 mots + 5 chiffres. Répète d’abord les mots, puis les chiffres. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_012",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_013",
-                "text": "Compte de 1 à 50 en remplaçant tous les multiples de 5 par “pizza”.",
+                "text": "actions.challenge_extreme.challenge_extreme_013",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_014",
-                "text": "Comptage piégé: compte de 1 à 20, multiples de 3 = « tac », multiples de 5 = « boum » (une seule tentative).",
+                "text": "actions.challenge_extreme.challenge_extreme_014",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_015",
-                "text": "Je prends note: pendant 15 secondes, réponds à tout uniquement par « je prends note ». Ton sérieux obligatoire.",
+                "text": "actions.challenge_extreme.challenge_extreme_015",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1018,7 +1018,7 @@
             },
             {
                 "id": "challenge_extreme_016",
-                "text": "Regard fixe en groupe: regarde successivement 3 personnes 3 secondes chacune comme si tu les jugeais. Silence total.",
+                "text": "actions.challenge_extreme.challenge_extreme_016",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1028,7 +1028,7 @@
             },
             {
                 "id": "challenge_extreme_017",
-                "text": "Absolument + regard: pendant 15 secondes, réponds uniquement « absolument » en regardant la même personne.",
+                "text": "actions.challenge_extreme.challenge_extreme_017",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1038,7 +1038,7 @@
             },
             {
                 "id": "challenge_extreme_018",
-                "text": "Synonymes express: donne 5 synonymes d’un mot choisi par le groupe en 10 secondes. (Lite: 3)",
+                "text": "actions.challenge_extreme.challenge_extreme_018",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1048,7 +1048,7 @@
             },
             {
                 "id": "challenge_extreme_019",
-                "text": "Sans 'je': raconte un mini-événement en 12 secondes sans utiliser « je ». Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_019",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1058,7 +1058,7 @@
             },
             {
                 "id": "challenge_extreme_020",
-                "text": "Yes-man: pendant 20 secondes, tu dois répondre uniquement par « absolument » à tout ce qu’on te dit.",
+                "text": "actions.challenge_extreme.challenge_extreme_020",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1068,7 +1068,7 @@
             },
             {
                 "id": "challenge_extreme_021",
-                "text": "Non-man: pendant 20 secondes, tu dois répondre uniquement par « pas du tout » à tout ce qu’on te dit.",
+                "text": "actions.challenge_extreme.challenge_extreme_021",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1078,12 +1078,12 @@
             },
             {
                 "id": "challenge_extreme_022",
-                "text": "Mémoire flash: le groupe dit 9 mots. Tu les répètes dans l’ordre. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_022",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_023",
-                "text": "Définition express: invente un mot et définis-le en 10 secondes. Le groupe note la créativité.",
+                "text": "actions.challenge_extreme.challenge_extreme_023",
                 "constraints": [
                     {
                         "type": "duration",
@@ -1093,12 +1093,12 @@
             },
             {
                 "id": "challenge_extreme_024",
-                "text": "Mémoire inversée: le groupe dit 7 mots. Tu les répètes à l’envers. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_024",
                 "constraints": []
             },
             {
                 "id": "challenge_extreme_025",
-                "text": "Chiffres inversés: le groupe dit 6 chiffres. Tu les redis à l’envers. Une seule tentative.",
+                "text": "actions.challenge_extreme.challenge_extreme_025",
                 "constraints": []
             }
         ]

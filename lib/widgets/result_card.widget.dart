@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:rollit/models/dice_action.model.dart';
 
 class ResultCard extends StatelessWidget {
@@ -44,6 +45,7 @@ class ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizedActionText = (actionText ?? '').tr();
     final badgeWidgets = <Widget>[];
     for (final constraint in constraints) {
       if (constraint.type == 'duration') {
@@ -154,7 +156,7 @@ class ResultCard extends StatelessWidget {
 
             // --- TEXTE D’ACTION ---
             Text(
-              actionText ?? '',
+              localizedActionText,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 24,
