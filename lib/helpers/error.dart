@@ -1,18 +1,20 @@
 import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:rollit/services/i18n.service.dart';
 
 String purchaseErrorFromPlatformError(PlatformException e) {
   final code = PurchasesErrorHelper.getErrorCode(e);
 
   switch (code) {
     case PurchasesErrorCode.purchaseNotAllowedError:
-      return "Achats indisponibles : ce compte/appareil n’est pas autorisé à acheter.";
+      return I18nKeys.instance.purchaseErrors.notAllowed.tr();
     case PurchasesErrorCode.storeProblemError:
-      return "Problème avec le store. Veuillez réessayer plus tard.";
+      return I18nKeys.instance.purchaseErrors.storeProblem.tr();
     case PurchasesErrorCode.purchaseCancelledError:
-      return "Achat annulé.";
+      return I18nKeys.instance.purchaseErrors.cancelled.tr();
     default:
-      return "Erreur d’achat. Réessayez plus tard.";
+      return I18nKeys.instance.purchaseErrors.generic.tr();
   }
 }
 
@@ -21,34 +23,34 @@ String purchaseErrorFromPurchases(PurchasesError error) {
 
   switch (code) {
     case PurchasesErrorCode.purchaseNotAllowedError:
-      return "Achats indisponibles : ce compte/appareil n’est pas autorisé à acheter.";
+      return I18nKeys.instance.purchaseErrors.notAllowed.tr();
     case PurchasesErrorCode.storeProblemError:
-      return "Problème avec le store. Veuillez réessayer plus tard.";
+      return I18nKeys.instance.purchaseErrors.storeProblem.tr();
     case PurchasesErrorCode.purchaseCancelledError:
-      return "Achat annulé.";
+      return I18nKeys.instance.purchaseErrors.cancelled.tr();
     case PurchasesErrorCode.paymentPendingError:
-      return "Le paiement est en attente. Veuillez finaliser le paiement pour accéder à la fonctionnalité premium.";
+      return I18nKeys.instance.purchaseErrors.paymentPending.tr();
     case PurchasesErrorCode.productNotAvailableForPurchaseError:
-      return "Le produit demandé n’est pas disponible à l’achat.";
+      return I18nKeys.instance.purchaseErrors.productUnavailable.tr();
     case PurchasesErrorCode.invalidCredentialsError:
-      return "Problème de connexion aux serveurs d’achat. Veuillez réessayer plus tard.";
+      return I18nKeys.instance.purchaseErrors.invalidCredentials.tr();
     case PurchasesErrorCode.networkError:
-      return "Problème de connexion réseau. Veuillez vérifier votre connexion et réessayer.";
+      return I18nKeys.instance.purchaseErrors.network.tr();
     case PurchasesErrorCode.invalidReceiptError:
-      return "Le reçu d’achat est invalide. Veuillez réessayer.";
+      return I18nKeys.instance.purchaseErrors.invalidReceipt.tr();
     case PurchasesErrorCode.unknownBackendError:
-      return "Erreur inconnue du serveur. Veuillez réessayer plus tard.";
+      return I18nKeys.instance.purchaseErrors.unknownBackend.tr();
     case PurchasesErrorCode.invalidAppUserIdError:
-      return "Identifiant utilisateur invalide. Veuillez réessayer.";
+      return I18nKeys.instance.purchaseErrors.invalidUser.tr();
     case PurchasesErrorCode.operationAlreadyInProgressError:
-      return "Une opération d’achat est déjà en cours. Veuillez patienter.";
+      return I18nKeys.instance.purchaseErrors.operationInProgress.tr();
     case PurchasesErrorCode.receiptInUseByOtherSubscriberError:
-      return "Le reçu est déjà utilisé par un autre abonné.";
+      return I18nKeys.instance.purchaseErrors.receiptInUse.tr();
     case PurchasesErrorCode.missingReceiptFileError:
-      return "Le fichier de reçu est manquant. Veuillez réessayer.";
+      return I18nKeys.instance.purchaseErrors.missingReceipt.tr();
     case PurchasesErrorCode.productAlreadyPurchasedError:
-      return "Ce produit a déjà été acheté.";
+      return I18nKeys.instance.purchaseErrors.alreadyPurchased.tr();
     default:
-      return "Erreur d’achat. Réessayez plus tard.";
+      return I18nKeys.instance.purchaseErrors.generic.tr();
   }
 }

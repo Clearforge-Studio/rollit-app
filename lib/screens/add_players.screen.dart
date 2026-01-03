@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/widgets/app_background.widget.dart';
 import 'package:rollit/services/i18n.service.dart';
@@ -24,10 +25,13 @@ class AddPlayersScreen extends ConsumerStatefulWidget {
 class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
     with TickerProviderStateMixin {
   static const int _maxPlayers = 8;
+  static const List<int> _quickRounds = [3, 5, 10];
+  static const int _maxCustomRounds = 99;
   final List<int> _draftPlayerIds = [];
   int _nextDraftPlayerId = 1;
   int? _focusDraftId;
   final Map<int, GlobalKey> _draftAvatarKeys = {};
+  final Map<int, FocusNode> _draftFocusNodes = {};
   final Map<PartyPlayer, GlobalKey> _playerAvatarKeys = {};
   final Set<PartyPlayer> _animatingPlayers = {};
 
@@ -35,8 +39,20 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
     return _draftAvatarKeys.putIfAbsent(draftId, () => GlobalKey());
   }
 
+  FocusNode _draftFocusNode(int draftId) {
+    return _draftFocusNodes.putIfAbsent(draftId, () => FocusNode());
+  }
+
   GlobalKey _playerAvatarKey(PartyPlayer player) {
     return _playerAvatarKeys.putIfAbsent(player, () => GlobalKey());
+  }
+
+  @override
+  void dispose() {
+    for (final node in _draftFocusNodes.values) {
+      node.dispose();
+    }
+    super.dispose();
   }
 
   Future<int?> _pickAvatar(BuildContext context, {int? selectedAvatarIndex}) {
@@ -76,6 +92,109 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
     }
   }
 
+  Future<void> _showCustomRoundsDialog(int currentRounds) async {
+    final controller = TextEditingController(text: currentRounds.toString());
+    final selectedRounds = await showDialog<int>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: Text(I18nKeys.instance.addPlayers.roundsDialogTitle.tr()),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            ),
+            TextButton(
+              onPressed: () {
+                final value = int.tryParse(controller.text);
+                if (value == null) {
+                  return;
+                }
+                final clamped = value.clamp(1, _maxCustomRounds);
+                Navigator.of(dialogContext).pop(clamped);
+              },
+              child: Text(I18nKeys.instance.addPlayers.roundsDialogSet.tr()),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (selectedRounds != null) {
+      ref.read(partyModeProvider.notifier).setTotalRounds(selectedRounds);
+    }
+  }
+
+  Widget _buildRoundsSelector({required int selectedRounds}) {
+    final isCustomSelected = !_quickRounds.contains(selectedRounds);
+    final customLabel = isCustomSelected
+        ? '${I18nKeys.instance.addPlayers.roundsCustom.tr()} ($selectedRounds)'
+        : I18nKeys.instance.addPlayers.roundsCustom.tr();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          I18nKeys.instance.addPlayers.roundsLabel.tr(),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          I18nKeys.instance.addPlayers.roundsHint.tr(),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Colors.white.withValues(alpha: 0.7),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            for (final value in _quickRounds)
+              ChoiceChip(
+                label: Text('$value'),
+                showCheckmark: false,
+                selected: selectedRounds == value,
+                selectedColor: const Color(0xFFFFD36E),
+                backgroundColor: Colors.white.withValues(alpha: 0.14),
+                side: BorderSide(color: Colors.white.withValues(alpha: 0.35)),
+                labelStyle: TextStyle(
+                  color: const Color(0xFF2B1500),
+                  fontWeight: FontWeight.w700,
+                ),
+                onSelected: (_) {
+                  ref.read(partyModeProvider.notifier).setTotalRounds(value);
+                },
+              ),
+            ChoiceChip(
+              label: Text(customLabel),
+              showCheckmark: false,
+              selected: isCustomSelected,
+              selectedColor: const Color(0xFFFFD36E),
+              backgroundColor: Colors.white.withValues(alpha: 0.14),
+              side: BorderSide(color: Colors.white.withValues(alpha: 0.35)),
+              labelStyle: TextStyle(
+                color: const Color(0xFF2B1500),
+
+                fontWeight: FontWeight.w700,
+              ),
+              onSelected: (_) => _showCustomRoundsDialog(selectedRounds),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final partyState = ref.watch(partyModeProvider);
@@ -88,17 +207,27 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
         appBar: AppBar(
           title: Text(I18nKeys.instance.addPlayers.title.tr()),
           actions: [
-            IconButton(
-              onPressed: hasReachedMaxPlayers
-                  ? null
-                  : () {
-                      setState(() {
-                        final newDraftId = _nextDraftPlayerId++;
-                        _draftPlayerIds.add(newDraftId);
-                        _focusDraftId = newDraftId;
-                      });
-                    },
-              icon: const Icon(Icons.add, size: 28),
+            Builder(
+              builder: (context) {
+                final isDisabled =
+                    hasReachedMaxPlayers || _draftPlayerIds.isNotEmpty;
+                return IgnorePointer(
+                  ignoring: isDisabled,
+                  child: Opacity(
+                    opacity: isDisabled ? 0.4 : 1.0,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          final newDraftId = _nextDraftPlayerId++;
+                          _draftPlayerIds.add(newDraftId);
+                          _focusDraftId = newDraftId;
+                        });
+                      },
+                      icon: const Icon(Icons.add, size: 28),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -150,6 +279,7 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: DraftPlayerCard(
                     avatarKey: _draftAvatarKey(draftId),
+                    focusNode: _draftFocusNode(draftId),
                     autofocus: _focusDraftId == draftId,
                     onPickAvatar: (selectedAvatarIndex) => _pickAvatar(
                       context,
@@ -160,6 +290,8 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                     onRemove: () {
                       setState(() {
                         _draftAvatarKeys.remove(draftId);
+                        final focusNode = _draftFocusNodes.remove(draftId);
+                        focusNode?.dispose();
                         _draftPlayerIds.remove(draftId);
                         if (_focusDraftId == draftId) {
                           _focusDraftId = null;
@@ -182,10 +314,17 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                         name: name,
                         avatarIndex: avatarIndex,
                       );
+                      final nextExistingDraft = _draftPlayerIds.firstWhere(
+                        (id) => id != draftId,
+                        orElse: () => -1,
+                      );
                       setState(() {
                         _animatingPlayers.add(player);
                         if (_focusDraftId == draftId) {
                           _focusDraftId = null;
+                        }
+                        if (nextExistingDraft != -1) {
+                          _focusDraftId = nextExistingDraft;
                         }
                       });
                       final targetKey = _playerAvatarKey(player);
@@ -206,16 +345,36 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                             }
                           },
                         );
+                        if (mounted) {
+                          setState(() {
+                            _draftAvatarKeys.remove(draftId);
+                            final focusNode = _draftFocusNodes.remove(draftId);
+                            focusNode?.dispose();
+                            _draftPlayerIds.remove(draftId);
+
+                            final currentPlayers =
+                                ref.read(partyModeProvider).players.length;
+                            if (currentPlayers < 2 &&
+                                _draftPlayerIds.isEmpty) {
+                              final newDraftId = _nextDraftPlayerId++;
+                              _draftPlayerIds.add(newDraftId);
+                              _focusDraftId = newDraftId;
+                            }
+                          });
+                        }
                       });
                     },
                   ),
                 ),
-              if (partyState.players.isNotEmpty)
+              if (partyState.players.isNotEmpty) ...[
+                _buildRoundsSelector(selectedRounds: partyState.totalRounds),
+                const SizedBox(height: 20),
                 StartGameButton(
                   label: I18nKeys.instance.addPlayers.startGame.tr(),
                   enabled: canStartGame,
                   onPressed: () => Navigator.pushNamed(context, '/party_mode'),
                 ),
+              ],
             ],
           ),
         ),

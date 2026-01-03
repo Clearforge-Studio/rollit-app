@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rollit/models/dice_action.model.dart';
 
 class ResultCard extends StatelessWidget {
@@ -74,94 +75,47 @@ class ResultCard extends StatelessWidget {
         isEndingSoon ? const Color(0xFFFF6B6B) : Colors.white;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 28),
-      padding: const EdgeInsets.all(26),
-      constraints: BoxConstraints(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.all(22),
+      constraints: const BoxConstraints(
         maxWidth: 650.0,
-        minHeight: MediaQuery.of(context).size.height * 0.425,
+        minHeight: 140.0,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF3F147C), // violet intense
-            Color(0xFF2A0D56),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-
-        // glow externe
+        borderRadius: BorderRadius.circular(24),
+        color: Colors.white.withValues(alpha: 0.12),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF7B2CFF).withValues(alpha: 0.55),
-            blurRadius: 35,
-            spreadRadius: 2,
+            color: Colors.black.withValues(alpha: 0.25),
+            blurRadius: 14,
+            offset: const Offset(0, 8),
           ),
         ],
-
-        // contour néon
-        border: Border.all(color: const Color(0xFF7F3DFF), width: 3),
       ),
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 28,
           children: [
-            // --- TITRE ---
-            Text(
-              title?.toUpperCase() ?? '',
-              style: const TextStyle(
-                height: 1.3,
-                fontSize: 28,
-                fontWeight: FontWeight.w900,
-                color: Color(0xFFFFE148), // jaune pastel
-                letterSpacing: 1.1,
-              ),
-            ),
-
-            // --- ICON EMBOSSED ---
-            Container(
-              width: 110,
-              height: 110,
-              padding: const EdgeInsets.all(22),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF6B2FE5), Color(0xFF3C167D)],
+            if ((title ?? '').isNotEmpty)
+              Text(
+                title ?? '',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white.withValues(alpha: 0.7),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.45),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
               ),
-              child: ShaderMask(
-                shaderCallback: (rect) {
-                  return const LinearGradient(
-                    colors: [Color(0xFFB9A7FF), Color(0xFF7D52E0)],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ).createShader(rect);
-                },
-                blendMode: BlendMode.srcATop,
-                child: icon,
-              ),
-            ),
-
-            // --- TEXTE D’ACTION ---
+            if ((title ?? '').isNotEmpty) const SizedBox(height: 8),
             Text(
               localizedActionText,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 24,
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
                 height: 1.3,
               ),
             ),
@@ -180,9 +134,9 @@ class ResultCard extends StatelessWidget {
                   color: Colors.white,
                   size: 18,
                 ),
-                label: const Text(
+                label: Text(
                   'Démarrer le chrono',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
@@ -210,7 +164,7 @@ class ResultCard extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       _formatTimer(timerRemainingSeconds ?? 0),
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: timerColor,
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
@@ -252,7 +206,7 @@ class _ConstraintBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
+        style: GoogleFonts.poppins(
           color: baseColor,
           fontWeight: FontWeight.w700,
           fontSize: 14,

@@ -14,6 +14,7 @@ class AdsService {
   // compteur pour décider quand afficher une pub
   int actionCount = 0;
   final int showEvery = 10; // pub toutes les 10 actions
+  int partyModeGameCount = 0;
 
   // IDs de test par défaut
   static String get interstitialAdUnitId {
@@ -101,6 +102,31 @@ class AdsService {
 
     if (_interstitialAd != null) {
       print("SHOWING interstitial");
+      await _interstitialAd!.show();
+      await Future.delayed(const Duration(milliseconds: 500));
+      return true;
+    } else {
+      print("Interstitial not ready, loading...");
+      _createInterstitialAd();
+      return false;
+    }
+  }
+
+  Future<bool> tryShowPartyInterstitial() async {
+    if (PurchaseService.instance.adsRemoved) {
+      print("Ads disabled (Remove Ads)");
+      return false;
+    }
+
+    partyModeGameCount++;
+
+    if (partyModeGameCount != 1 &&
+        (partyModeGameCount - 1) % 3 != 0) {
+      return false;
+    }
+
+    if (_interstitialAd != null) {
+      print("SHOWING interstitial (party mode)");
       await _interstitialAd!.show();
       await Future.delayed(const Duration(milliseconds: 500));
       return true;

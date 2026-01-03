@@ -4,6 +4,7 @@ import 'package:rollit/widgets/add_players/avatar_utils.dart';
 
 class DraftPlayerCard extends StatefulWidget {
   final GlobalKey avatarKey;
+  final FocusNode focusNode;
   final bool autofocus;
   final Future<int?> Function(int? selectedAvatarIndex) onPickAvatar;
   final void Function(String name, int avatarIndex) onValidate;
@@ -13,6 +14,7 @@ class DraftPlayerCard extends StatefulWidget {
   const DraftPlayerCard({
     super.key,
     required this.avatarKey,
+    required this.focusNode,
     required this.autofocus,
     required this.onPickAvatar,
     required this.onValidate,
@@ -41,12 +43,30 @@ class _DraftPlayerCardState extends State<DraftPlayerCard> {
         setState(() {});
       }
     });
+    if (widget.autofocus) {
+      _requestFocus();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant DraftPlayerCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.autofocus && !oldWidget.autofocus) {
+      _requestFocus();
+    }
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     super.dispose();
+  }
+
+  void _requestFocus() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _isSubmitting) return;
+      FocusScope.of(context).requestFocus(widget.focusNode);
+    });
   }
 
   Future<void> _submit() async {
@@ -127,6 +147,7 @@ class _DraftPlayerCardState extends State<DraftPlayerCard> {
                   style: const TextStyle(color: Colors.white),
                   controller: _nameController,
                   autofocus: widget.autofocus,
+                  focusNode: widget.focusNode,
                   enabled: !_isSubmitting,
                   decoration: InputDecoration(
                     labelText: widget.playerNameLabel,

@@ -2,6 +2,108 @@
     "home": {
         "party_mode": "Mode Party"
     },
+    "common": {
+        "roll": "Lancer",
+        "reroll": "Relancer"
+    },
+    "settings": {
+        "title": "Paramètres",
+        "section_preferences": "Préférences",
+        "section_categories": "Catégories",
+        "section_store": "Boutique",
+        "section_support": "Support",
+        "section_community": "Communauté",
+        "section_legal": "Légal",
+        "section_about": "À propos",
+        "sounds": "Sons",
+        "vibrations": "Vibration",
+        "language": "Langue",
+        "language_dialog_title": "Choisir la langue",
+        "store": "Boutique",
+        "remove_ads": "Supprimer les pubs",
+        "restore_purchases": "Restaurer les achats",
+        "contact_support": "Contacter le support",
+        "suggest_feature": "Suggérer une fonctionnalité",
+        "share_app": "Partager l’application",
+        "other_apps": "Nos autres applications",
+        "privacy_policy": "Politique de confidentialité",
+        "ads_preferences": "Gérer vos choix publicitaires",
+        "rate_the_app": "Noter l’application",
+        "about": "À propos",
+        "about_description": "RollIt! est un jeu simple et fun pour dynamiser vos soirées.\n\nLancez le dé, découvrez une catégorie, et réalisez une action amusante : imitations, défis, questions fun, WTF ou mini-jeux.\n\nAucune inscription, aucune donnée collectée : vos préférences restent localement sur votre appareil.\n\nMerci d’utiliser RollIt! 🎲✨\nAmusez-vous bien !",
+        "version": "Version",
+        "min_category": "Au moins une catégorie doit être activée."
+    },
+    "categories": {
+        "title": "Catégories",
+        "imitation": "Imitation",
+        "challenge": "Défi",
+        "extreme_challenge": "Défis Extrêmes",
+        "fun_question": "Question Fun",
+        "wtf": "WTF",
+        "wtf_plus": "WTF+",
+        "mini_games": "Mini-jeux"
+    },
+    "store": {
+        "title": "Boutique",
+        "premium_packs": "Packs Premium",
+        "other_options": "Autres options",
+        "wtf_plus": "WTF+",
+        "wtf_plus_description": "20 actions WTF encore plus folles et absurdes.",
+        "challenge_extreme": "Défis Extrêmes",
+        "challenge_extreme_description": "20 Défis physiques et mentaux pour passer au niveau supérieur.",
+        "remove_ads": "Supprimer les pubs",
+        "remove_ads_description": "Plus aucune interruption"
+    },
+    "purchase_errors": {
+        "not_allowed": "Achats indisponibles: ce compte/appareil n’est pas autorisé à acheter.",
+        "store_problem": "Problème avec le store. Veuillez réessayer plus tard.",
+        "cancelled": "Achat annulé.",
+        "generic": "Erreur d’achat. Réessayez plus tard.",
+        "payment_pending": "Le paiement est en attente. Veuillez finaliser le paiement pour accéder à la fonctionnalité premium.",
+        "product_unavailable": "Le produit demandé n’est pas disponible à l’achat.",
+        "invalid_credentials": "Problème de connexion aux serveurs d’achat. Veuillez réessayer plus tard.",
+        "network": "Problème de connexion réseau. Veuillez vérifier votre connexion et réessayer.",
+        "invalid_receipt": "Le reçu d’achat est invalide. Veuillez réessayer.",
+        "unknown_backend": "Erreur inconnue du serveur. Veuillez réessayer plus tard.",
+        "invalid_user": "Identifiant utilisateur invalide. Veuillez réessayer.",
+        "operation_in_progress": "Une opération d’achat est déjà en cours. Veuillez patienter.",
+        "receipt_in_use": "Le reçu est déjà utilisé par un autre abonné.",
+        "missing_receipt": "Le fichier de reçu est manquant. Veuillez réessayer.",
+        "already_purchased": "Ce produit a déjà été acheté."
+    },
+    "party_mode": {
+        "turn_to_play": "C'est à {name} de jouer !",
+        "tap_to_start": "Tape le dé pour commencer",
+        "start_timer": "Démarrer le chrono",
+        "roll": "Lancer",
+        "tap_to_roll": "Tape le dé pour lancer",
+        "add_players_to_start": "Ajoute des joueurs pour commencer.",
+        "pass": "Passer",
+        "done": "Fait"
+    },
+    "party_mode_result": {
+        "title": "Fin de partie",
+        "winner_title": "Gagnant",
+        "winner_text": "{name} avec {score} pts",
+        "most_picked_title": "Catégorie la plus tirée",
+        "most_picked_text": "{category} ({count}x)",
+        "duration_title": "Durée de la partie",
+        "duration_text": "{duration}",
+        "highlight_text": "{name} — {count}x {category}",
+        "replay": "Rejouer",
+        "back_home": "Retour",
+        "no_data": "Aucune donnée",
+        "category_title": {
+            "imitation": "Maître des imitations",
+            "challenge": "Champion des défis",
+            "challenge_extreme": "Casseur de limites",
+            "fun": "Roi des questions fun",
+            "wtf": "Joueur du chaos",
+            "wtf_plus": "Agent du WTF+",
+            "mini_game": "Maître des mini-jeux"
+        }
+    },
     "add_players": {
         "title": "Ajouter des joueurs",
         "player_name": "Nom du joueur",
@@ -17,7 +119,12 @@
         "empty_title": "Ajoute tes premiers joueurs",
         "empty_subtitle": "Appuie sur le + pour commencer, puis ajoute un nom et un avatar.",
         "max_players_hint": "Jusqu’à 8 joueurs pour une partie fluide.",
-        "start_game": "Lancer la partie"
+        "start_game": "Lancer la partie",
+        "rounds_label": "Nombre de tours",
+        "rounds_hint": "1 tour = 1 lancer de dé par joueur.",
+        "rounds_custom": "Personnalisé",
+        "rounds_dialog_title": "Tours personnalisés",
+        "rounds_dialog_set": "Définir"
     },
     "remove_ads_paywall": {
         "title": "Jouez sans interruption 🎲",

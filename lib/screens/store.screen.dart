@@ -4,6 +4,8 @@ import 'package:rollit/providers/purchase.provider.dart';
 import 'package:rollit/services/purchase.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:rollit/services/i18n.service.dart';
 
 class StoreScreen extends ConsumerStatefulWidget {
   const StoreScreen({super.key});
@@ -34,9 +36,9 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
               systemNavigationBarContrastEnforced: true,
               systemNavigationBarIconBrightness: Brightness.light,
             ),
-        title: const Text(
-          "Boutique",
-          style: TextStyle(
+        title: Text(
+          I18nKeys.instance.store.title.tr(),
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 22,
             color: Colors.black,
@@ -56,13 +58,13 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              _sectionTitle("Packs Premium"),
+              _sectionTitle(I18nKeys.instance.store.premiumPacks.tr()),
 
               const SizedBox(height: 16),
 
               _storeCard(
-                title: "WTF+",
-                subtitle: "20 actions WTF encore plus folles et absurdes.",
+                title: I18nKeys.instance.store.wtfPlus.tr(),
+                subtitle: I18nKeys.instance.store.wtfPlusDescription.tr(),
                 entName: PurchaseService.entWtfPlus,
                 color: const Color(0xFF9A5DF5),
                 icon: "🤪",
@@ -84,9 +86,9 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
               const SizedBox(height: 22),
 
               _storeCard(
-                title: "Défis Extrêmes",
+                title: I18nKeys.instance.store.challengeExtreme.tr(),
                 subtitle:
-                    "20 Défis physiques et mentaux pour passer au niveau supérieur.",
+                    I18nKeys.instance.store.challengeExtremeDescription.tr(),
                 entName: PurchaseService.entChallengeExtreme,
                 color: const Color(0xFFFF8F5A),
                 icon: "🔥",
@@ -106,13 +108,13 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
 
               const SizedBox(height: 22),
 
-              _sectionTitle("Autres options"),
+              _sectionTitle(I18nKeys.instance.store.otherOptions.tr()),
 
               const SizedBox(height: 16),
 
               _storeCard(
-                title: "Supprimer les pubs",
-                subtitle: "Plus aucune interruption",
+                title: I18nKeys.instance.store.removeAds.tr(),
+                subtitle: I18nKeys.instance.store.removeAdsDescription.tr(),
                 entName: PurchaseService.entRemoveAds,
                 color: const Color(0xFF55E6C1),
                 icon: "🚫",
@@ -216,7 +218,7 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
               future: PurchaseService.instance.getProduct(entName),
               builder: (context, snapshot) {
                 final price = owned
-                    ? "Acheté"
+                    ? I18nKeys.instance.paywallSheet.bought.tr()
                     : (snapshot.data?.priceString ?? "");
 
                 return Text(

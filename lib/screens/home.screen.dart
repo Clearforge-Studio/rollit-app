@@ -77,13 +77,35 @@ class HomeScreen extends ConsumerWidget {
                     ? currentCategory.imagePath
                     : categories.first.imagePath,
                 categories: categories,
+                diceText: I18nKeys.instance.common.roll.tr(),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   Navigator.pushNamed(context, '/add_players');
                 },
-                child: Text(I18nKeys.instance.home.partyMode.tr()),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.35),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Text(
+                    I18nKeys.instance.home.partyMode.tr(),
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: Colors.white.withValues(alpha: 0.9),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

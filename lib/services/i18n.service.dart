@@ -3,12 +3,16 @@ class I18nKeys {
   I18nKeys._internal();
 
   final HomeKeys home = HomeKeys.instance;
+  final CommonKeys common = CommonKeys.instance;
   final AddPlayersKeys addPlayers = AddPlayersKeys.instance;
+  final PartyModeKeys partyMode = PartyModeKeys.instance;
+  final PartyModeResultKeys partyModeResult = PartyModeResultKeys.instance;
   final SettingsKeys settings = SettingsKeys.instance;
   final CategoriesKeys categories = CategoriesKeys.instance;
   final StoreKeys store = StoreKeys.instance;
   final RemoveAdsPaywallKeys removeAdsPaywall = RemoveAdsPaywallKeys.instance;
   final PaywallSheetKeys paywallSheet = PaywallSheetKeys.instance;
+  final PurchaseErrorKeys purchaseErrors = PurchaseErrorKeys.instance;
 }
 
 class HomeKeys {
@@ -16,6 +20,14 @@ class HomeKeys {
   HomeKeys._internal();
 
   final String partyMode = "home.party_mode";
+}
+
+class CommonKeys {
+  static final CommonKeys instance = CommonKeys._internal();
+  CommonKeys._internal();
+
+  final String roll = "common.roll";
+  final String reroll = "common.reroll";
 }
 
 class AddPlayersKeys {
@@ -35,6 +47,54 @@ class AddPlayersKeys {
   final String emptySubtitle = "add_players.empty_subtitle";
   final String maxPlayersHint = "add_players.max_players_hint";
   final String startGame = "add_players.start_game";
+  final String roundsLabel = "add_players.rounds_label";
+  final String roundsHint = "add_players.rounds_hint";
+  final String roundsCustom = "add_players.rounds_custom";
+  final String roundsDialogTitle = "add_players.rounds_dialog_title";
+  final String roundsDialogSet = "add_players.rounds_dialog_set";
+}
+
+class PartyModeKeys {
+  static final PartyModeKeys instance = PartyModeKeys._internal();
+  PartyModeKeys._internal();
+
+  final String turnToPlay = "party_mode.turn_to_play";
+  final String tapToStart = "party_mode.tap_to_start";
+  final String startTimer = "party_mode.start_timer";
+  final String roll = "party_mode.roll";
+  final String tapToRoll = "party_mode.tap_to_roll";
+  final String addPlayersToStart = "party_mode.add_players_to_start";
+  final String pass = "party_mode.pass";
+  final String done = "party_mode.done";
+}
+
+class PartyModeResultKeys {
+  static final PartyModeResultKeys instance = PartyModeResultKeys._internal();
+  PartyModeResultKeys._internal();
+
+  final String title = "party_mode_result.title";
+  final String winnerTitle = "party_mode_result.winner_title";
+  final String winnerText = "party_mode_result.winner_text";
+  final String mostPickedTitle = "party_mode_result.most_picked_title";
+  final String mostPickedText = "party_mode_result.most_picked_text";
+  final String durationTitle = "party_mode_result.duration_title";
+  final String durationText = "party_mode_result.duration_text";
+  final String highlightText = "party_mode_result.highlight_text";
+  final String replay = "party_mode_result.replay";
+  final String backHome = "party_mode_result.back_home";
+  final String noData = "party_mode_result.no_data";
+  final String categoryTitleImitation =
+      "party_mode_result.category_title.imitation";
+  final String categoryTitleChallenge =
+      "party_mode_result.category_title.challenge";
+  final String categoryTitleChallengeExtreme =
+      "party_mode_result.category_title.challenge_extreme";
+  final String categoryTitleFun = "party_mode_result.category_title.fun";
+  final String categoryTitleWtf = "party_mode_result.category_title.wtf";
+  final String categoryTitleWtfPlus =
+      "party_mode_result.category_title.wtf_plus";
+  final String categoryTitleMiniGame =
+      "party_mode_result.category_title.mini_game";
 }
 
 class SettingsKeys {
@@ -42,16 +102,31 @@ class SettingsKeys {
   SettingsKeys._internal();
 
   final String title = "settings.title";
+  final String sectionPreferences = "settings.section_preferences";
+  final String sectionCategories = "settings.section_categories";
+  final String sectionStore = "settings.section_store";
+  final String sectionSupport = "settings.section_support";
+  final String sectionCommunity = "settings.section_community";
+  final String sectionLegal = "settings.section_legal";
+  final String sectionAbout = "settings.section_about";
   final String sounds = "settings.sounds";
   final String vibrations = "settings.vibrations";
   final String store = "settings.store";
+  final String removeAds = "settings.remove_ads";
   final String restorePurchases = "settings.restore_purchases";
-  final String informations = "settings.informations";
+  final String contactSupport = "settings.contact_support";
+  final String suggestFeature = "settings.suggest_feature";
+  final String shareApp = "settings.share_app";
+  final String otherApps = "settings.other_apps";
   final String privacyPolicy = "settings.privacy_policy";
   final String adsPreferences = "settings.ads_preferences";
   final String rateTheApp = "settings.rate_the_app";
   final String about = "settings.about";
+  final String aboutDescription = "settings.about_description";
   final String version = "settings.version";
+  final String minCategory = "settings.min_category";
+  final String language = "settings.language";
+  final String languageDialogTitle = "settings.language_dialog_title";
 }
 
 class CategoriesKeys {
@@ -121,4 +196,25 @@ class PaywallSheetKeys {
       "paywall_sheet.product.remove_ads.description";
   final String restore = "paywall_sheet.restore";
   final String bought = "paywall_sheet.bought";
+}
+
+class PurchaseErrorKeys {
+  static final PurchaseErrorKeys instance = PurchaseErrorKeys._internal();
+  PurchaseErrorKeys._internal();
+
+  final String notAllowed = "purchase_errors.not_allowed";
+  final String storeProblem = "purchase_errors.store_problem";
+  final String cancelled = "purchase_errors.cancelled";
+  final String generic = "purchase_errors.generic";
+  final String paymentPending = "purchase_errors.payment_pending";
+  final String productUnavailable = "purchase_errors.product_unavailable";
+  final String invalidCredentials = "purchase_errors.invalid_credentials";
+  final String network = "purchase_errors.network";
+  final String invalidReceipt = "purchase_errors.invalid_receipt";
+  final String unknownBackend = "purchase_errors.unknown_backend";
+  final String invalidUser = "purchase_errors.invalid_user";
+  final String operationInProgress = "purchase_errors.operation_in_progress";
+  final String receiptInUse = "purchase_errors.receipt_in_use";
+  final String missingReceipt = "purchase_errors.missing_receipt";
+  final String alreadyPurchased = "purchase_errors.already_purchased";
 }

@@ -2,6 +2,108 @@
     "home": {
         "party_mode": "Party Mode"
     },
+    "common": {
+        "roll": "Roll",
+        "reroll": "Re-roll"
+    },
+    "settings": {
+        "title": "Settings",
+        "section_preferences": "Preferences",
+        "section_categories": "Categories",
+        "section_store": "Store",
+        "section_support": "Support",
+        "section_community": "Community",
+        "section_legal": "Legal",
+        "section_about": "About",
+        "sounds": "Sounds",
+        "vibrations": "Vibration",
+        "language": "Language",
+        "language_dialog_title": "Choose language",
+        "store": "Store",
+        "remove_ads": "Remove ads",
+        "restore_purchases": "Restore purchases",
+        "contact_support": "Contact support",
+        "suggest_feature": "Suggest a feature",
+        "share_app": "Share the app",
+        "other_apps": "Our other apps",
+        "privacy_policy": "Privacy policy",
+        "ads_preferences": "Manage ad preferences",
+        "rate_the_app": "Rate the app",
+        "about": "About",
+        "about_description": "RollIt! is a simple and fun game to energize your nights.\n\nRoll the die, discover a category, and perform a fun action: imitations, challenges, fun questions, WTF, or mini-games.\n\nNo sign-up, no data collected: your preferences stay on your device.\n\nThanks for playing RollIt! 🎲✨\nHave fun!",
+        "version": "Version",
+        "min_category": "At least one category must be enabled."
+    },
+    "categories": {
+        "title": "Categories",
+        "imitation": "Imitation",
+        "challenge": "Challenge",
+        "extreme_challenge": "Extreme Challenges",
+        "fun_question": "Fun Question",
+        "wtf": "WTF",
+        "wtf_plus": "WTF+",
+        "mini_games": "Mini-games"
+    },
+    "store": {
+        "title": "Store",
+        "premium_packs": "Premium Packs",
+        "other_options": "Other options",
+        "wtf_plus": "WTF+",
+        "wtf_plus_description": "20 even wilder WTF actions.",
+        "challenge_extreme": "Extreme Challenges",
+        "challenge_extreme_description": "20 physical and mental challenges to level up.",
+        "remove_ads": "Remove ads",
+        "remove_ads_description": "No more interruptions"
+    },
+    "purchase_errors": {
+        "not_allowed": "Purchases are not allowed on this account/device.",
+        "store_problem": "Store problem. Please try again later.",
+        "cancelled": "Purchase cancelled.",
+        "generic": "Purchase error. Please try again later.",
+        "payment_pending": "Payment is pending. Please complete it to access premium.",
+        "product_unavailable": "The requested product is not available.",
+        "invalid_credentials": "Purchase server connection issue. Please try again later.",
+        "network": "Network connection problem. Please check your connection and try again.",
+        "invalid_receipt": "The purchase receipt is invalid. Please try again.",
+        "unknown_backend": "Unknown server error. Please try again later.",
+        "invalid_user": "Invalid user ID. Please try again.",
+        "operation_in_progress": "A purchase is already in progress. Please wait.",
+        "receipt_in_use": "This receipt is already used by another subscriber.",
+        "missing_receipt": "Receipt file is missing. Please try again.",
+        "already_purchased": "This product has already been purchased."
+    },
+    "party_mode": {
+        "turn_to_play": "{name}, it's your turn!",
+        "tap_to_start": "Tap the dice to start",
+        "start_timer": "Start the timer",
+        "roll": "Roll",
+        "tap_to_roll": "Tap the dice to roll",
+        "add_players_to_start": "Add players to get started.",
+        "pass": "Pass",
+        "done": "Done"
+    },
+    "party_mode_result": {
+        "title": "Game over",
+        "winner_title": "Winner",
+        "winner_text": "{name} with {score} pts",
+        "most_picked_title": "Most rolled category",
+        "most_picked_text": "{category} ({count}x)",
+        "duration_title": "Game duration",
+        "duration_text": "{duration}",
+        "highlight_text": "{name} — {count}x {category}",
+        "replay": "Play again",
+        "back_home": "Back",
+        "no_data": "No data",
+        "category_title": {
+            "imitation": "Impression master",
+            "challenge": "Challenge champion",
+            "challenge_extreme": "Limit breaker",
+            "fun": "Fun question king",
+            "wtf": "Chaos player",
+            "wtf_plus": "WTF+ agent",
+            "mini_game": "Mini-game master"
+        }
+    },
     "add_players": {
         "title": "Add Players",
         "player_name": "Player Name",
@@ -17,7 +119,12 @@
         "empty_title": "Add your first players",
         "empty_subtitle": "Tap the + to start, then add a name and avatar.",
         "max_players_hint": "Up to 8 players for a smooth game.",
-        "start_game": "Start Game"
+        "start_game": "Start Game",
+        "rounds_label": "Number of rounds",
+        "rounds_hint": "1 round = 1 dice roll per player.",
+        "rounds_custom": "Custom",
+        "rounds_dialog_title": "Custom rounds",
+        "rounds_dialog_set": "Set"
     },
     "remove_ads_paywall": {
         "title": "Play without interruptions 🎲",

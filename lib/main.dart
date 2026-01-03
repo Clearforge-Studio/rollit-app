@@ -10,6 +10,7 @@ import 'package:rollit/providers/category.provider.dart';
 import 'package:rollit/screens/add_players.screen.dart';
 import 'package:rollit/screens/home.screen.dart';
 import 'package:rollit/screens/party_mode.screen.dart';
+import 'package:rollit/screens/party_mode_result.screen.dart';
 import 'package:rollit/screens/settings.screen.dart';
 import 'package:rollit/services/consent_manager.dart';
 import 'package:rollit/services/preferences.service.dart';
@@ -105,6 +106,7 @@ class _RollitAppState extends ConsumerState<RollitApp> {
         '/home': (_) => const HomeScreen(),
         '/add_players': (_) => const AddPlayersScreen(),
         '/party_mode': (_) => const PartyModeScreen(),
+        '/party_mode_result': (_) => const PartyModeResultScreen(),
       },
       home: FutureBuilder(
         future: ref.read(categoryProvider.notifier).loadCategories(),

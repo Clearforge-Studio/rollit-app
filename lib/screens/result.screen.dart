@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/models/dice_action.model.dart';
 import 'package:rollit/models/dice_category.model.dart';
 import 'package:rollit/providers/action.provider.dart';
 import 'package:rollit/providers/category.provider.dart';
 import 'package:flutter/material.dart';
+import 'package:rollit/services/i18n.service.dart';
 import 'package:rollit/widgets/app_background.widget.dart';
 import 'package:rollit/widgets/dice.widget.dart';
 import 'package:rollit/widgets/result_card.widget.dart';
@@ -58,9 +60,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
     super.dispose();
   }
 
-  ActionConstraint? _getDurationConstraint(
-    List<ActionConstraint> constraints,
-  ) {
+  ActionConstraint? _getDurationConstraint(List<ActionConstraint> constraints) {
     for (final constraint in constraints) {
       if (constraint.type == 'duration') {
         return constraint;
@@ -123,6 +123,10 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
     final category =
         ref.read(categoryProvider).currentCategory ??
         categories[_random.nextInt(categories.length)];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ref.read(categoryProvider.notifier).setCurrentCategory(category);
+    });
     final categoryActions = actions
         .firstWhere((a) => a.category == category.id)
         .actions;
@@ -236,7 +240,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                   initialFacePath:
                       currentCategory?.imagePath ?? categories.first.imagePath,
                   categories: categories,
-                  diceText: "Re-roll!",
+                  diceText: I18nKeys.instance.common.reroll.tr(),
                 ),
               ],
             ),

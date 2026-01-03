@@ -22,6 +22,8 @@ class Dice extends ConsumerStatefulWidget {
   final bool hideDiceOnComplete;
   final bool hideDiceInitially;
   final String diceText;
+  final bool showButton;
+  final bool isEnabled;
 
   /// Face par défaut (avant le premier roll)
   final String initialFacePath;
@@ -35,7 +37,9 @@ class Dice extends ConsumerStatefulWidget {
     this.hideDiceOnComplete = false,
     this.hideDiceInitially = false,
     this.diceText = "Roll!",
+    this.showButton = true,
     this.size = 150,
+    this.isEnabled = true,
   });
 
   @override
@@ -185,109 +189,125 @@ class _DiceState extends ConsumerState<Dice>
         _currentLogicalIndex >= 0 &&
         _currentLogicalIndex < widget.categories.length;
 
+    final fallbackImage =
+        widget.categories.isNotEmpty ? widget.categories[0].imagePath : '';
     final displayedImage = hasValidIndex
         ? widget.categories[_currentLogicalIndex].imagePath
-        : widget.categories[0].imagePath;
+        : (widget.initialFacePath.isNotEmpty
+            ? widget.initialFacePath
+            : fallbackImage);
 
     return GestureDetector(
-      onTap: () async {
-        final canAsk = await ReviewService.canAskForReview();
-        if (!context.mounted) return;
-        if (canAsk) {
-          return await showRateAppDialog(context);
-        }
+      onTap: widget.isEnabled
+          ? () async {
+              final canAsk = await ReviewService.canAskForReview();
+              if (!context.mounted) return;
+              if (canAsk) {
+                return await showRateAppDialog(context);
+              }
 
-        setState(() {
-          _hideDice = false;
-        });
-        roll(context);
-      },
-      child: AnimatedBuilder(
-        animation: _spin,
-        builder: (_, child) {
-          final angle = _spin.value * pi * 2;
-          final scale = 1.0 + sin(_spin.value * pi) * 0.15;
+              setState(() {
+                _hideDice = false;
+              });
+              roll(context);
+            }
+          : null,
+      child: Opacity(
+        opacity: widget.isEnabled ? 1.0 : 0.55,
+        child: AnimatedBuilder(
+          animation: _spin,
+          builder: (_, child) {
+            final angle = _spin.value * pi * 2;
+            final scale = 1.0 + sin(_spin.value * pi) * 0.15;
 
-          return Column(
-            children: [
-              if (!_hideDice)
-                Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.identity()
-                    ..rotateZ(angle)
-                    ..scale(scale),
-                  child: Container(
-                    width: widget.size,
-                    height: widget.size,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.18),
-                          blurRadius: 18,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(20),
-                    child: FittedBox(child: Image.asset(displayedImage)),
-                  ),
-                ),
-
-              if (!_hideDice) const SizedBox(height: 40),
-              GestureDetector(
-                onTap: () async {
-                  final canAsk = await ReviewService.canAskForReview();
-                  if (!context.mounted) return;
-                  if (canAsk) {
-                    return await showRateAppDialog(context);
-                  }
-
-                  setState(() {
-                    _hideDice = false;
-                  });
-
-                  roll(context);
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 64,
-                    vertical: 18,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFF5EDF), // rose neon
-                        Color(0xFF6A5DFF), // violet RollIt!
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(64),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFFF3EDF).withValues(alpha: 0.4),
-                        blurRadius: 22,
-                        spreadRadius: 1,
-                        offset: const Offset(0, 6),
+            return Column(
+              children: [
+                if (!_hideDice)
+                  Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..rotateZ(angle)
+                      ..scale(scale),
+                    child: Container(
+                      width: widget.size,
+                      height: widget.size,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.18),
+                            blurRadius: 18,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Text(
-                    widget.diceText,
-                    style: GoogleFonts.poppins(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                      letterSpacing: 1,
+                      padding: const EdgeInsets.all(20),
+                      child: FittedBox(child: Image.asset(displayedImage)),
                     ),
                   ),
-                ),
-              ),
-            ],
-          );
-        },
+
+                if (!_hideDice && widget.showButton) const SizedBox(height: 40),
+                if (widget.showButton)
+                  GestureDetector(
+                    onTap:
+                        widget.isEnabled
+                            ? () async {
+                                final canAsk =
+                                    await ReviewService.canAskForReview();
+                                if (!context.mounted) return;
+                                if (canAsk) {
+                                  return await showRateAppDialog(context);
+                                }
+
+                                setState(() {
+                                  _hideDice = false;
+                                });
+
+                                roll(context);
+                              }
+                            : null,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 64,
+                        vertical: 18,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFF5EDF), // rose neon
+                            Color(0xFF6A5DFF), // violet RollIt!
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(64),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFF3EDF).withValues(
+                              alpha: 0.4,
+                            ),
+                            blurRadius: 22,
+                            spreadRadius: 1,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        widget.diceText,
+                        style: GoogleFonts.poppins(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

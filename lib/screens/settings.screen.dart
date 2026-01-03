@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -12,7 +11,11 @@ import 'package:rollit/services/consent_manager.dart';
 import 'package:rollit/services/preferences.service.dart';
 import 'package:rollit/services/purchase.service.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rollit/services/review.service.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:rollit/services/i18n.service.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -24,12 +27,29 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   late bool soundEnabled;
   late bool vibrationEnabled;
+  String? _versionLabel;
 
   @override
   void initState() {
     super.initState();
     soundEnabled = PreferencesService.getSound();
     vibrationEnabled = PreferencesService.getVibration();
+    _loadVersionInfo();
+  }
+
+  Future<void> _loadVersionInfo() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      if (!mounted) return;
+      setState(() {
+        _versionLabel = '${info.version} (${info.buildNumber})';
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _versionLabel = "—";
+      });
+    }
   }
 
   void ensureMinimumOneCategoryEnabled(
@@ -47,7 +67,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Au moins une catégorie doit être activée."),
+          content: Text(I18nKeys.instance.settings.minCategory.tr()),
           duration: Duration(seconds: 2),
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
@@ -60,6 +80,97 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       setState(() {});
       callback();
     }
+  }
+
+  Future<void> _showLanguageDialog() async {
+    final localeLabels = <String, String>{
+      'en': 'English',
+      'fr': 'Français',
+    };
+    final localeFlags = <String, String>{
+      'en': '🇬🇧',
+      'fr': '🇫🇷',
+    };
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return SimpleDialog(
+          title: Text(I18nKeys.instance.settings.languageDialogTitle.tr()),
+          children: [
+            for (final locale in context.supportedLocales)
+              SimpleDialogOption(
+                onPressed: () async {
+                  await context.setLocale(locale);
+                  if (dialogContext.mounted) {
+                    Navigator.of(dialogContext).pop();
+                  }
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      localeFlags[locale.languageCode] ?? '',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        localeLabels[locale.languageCode] ??
+                            locale.languageCode,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    if (context.locale == locale)
+                      const Icon(Icons.check, size: 20),
+                  ],
+                ),
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showAboutDialog() async {
+    if (!mounted) return;
+    showAboutDialog(
+      context: context,
+      applicationName: "RollIt!",
+      applicationVersion: _versionLabel ?? "—",
+      applicationIcon: Container(
+        width: 60,
+        height: 60,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF7F3DFF), Color(0xFF46167A)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [],
+        ),
+        child: Image.asset(
+          "assets/images/dice/challenge.png",
+          color: Colors.white,
+        ),
+      ),
+      applicationLegalese: "",
+      children: [
+        const SizedBox(height: 16),
+        Text(
+          I18nKeys.instance.settings.aboutDescription.tr(),
+          style: const TextStyle(
+            fontSize: 15,
+            height: 1.35,
+            color: Color(0xFF2C2C2C),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -84,9 +195,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               systemNavigationBarContrastEnforced: true,
               systemNavigationBarIconBrightness: Brightness.light,
             ),
-        title: const Text(
-          "Paramètres",
-          style: TextStyle(
+        title: Text(
+          I18nKeys.instance.settings.title.tr(),
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 22,
             color: Colors.black,
@@ -108,11 +219,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               children: [
-                _sectionTitle("Préférences"),
+                _sectionTitle(
+                  I18nKeys.instance.settings.sectionPreferences.tr(),
+                ),
 
                 _switchTile(
                   icon: Icons.volume_up,
-                  title: "Sons",
+                  title: I18nKeys.instance.settings.sounds.tr(),
                   value: soundEnabled,
                   onChanged: (val) {
                     setState(() => soundEnabled = val);
@@ -122,21 +235,28 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 _switchTile(
                   icon: Icons.vibration,
-                  title: "Vibration",
+                  title: I18nKeys.instance.settings.vibrations.tr(),
                   value: vibrationEnabled,
                   onChanged: (val) {
                     setState(() => vibrationEnabled = val);
                     PreferencesService.setVibration(val);
                   },
                 ),
+                _navTile(
+                  icon: Icons.language,
+                  title: I18nKeys.instance.settings.language.tr(),
+                  onTap: _showLanguageDialog,
+                ),
 
                 const SizedBox(height: 30),
 
-                _sectionTitle("Catégories"),
+                _sectionTitle(
+                  I18nKeys.instance.settings.sectionCategories.tr(),
+                ),
 
                 _switchTile(
                   icon: Icons.theater_comedy,
-                  title: "Imitation",
+                  title: I18nKeys.instance.categories.imitation.tr(),
                   value: enabledCategories.contains(
                     DiceCategory.imitationCategory,
                   ),
@@ -151,7 +271,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 _switchTile(
                   icon: Icons.flag,
-                  title: "Défi",
+                  title: I18nKeys.instance.categories.challenge.tr(),
                   value: enabledCategories.contains(
                     DiceCategory.challengeCategory,
                   ),
@@ -167,7 +287,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 if (challengeExtremeOwned)
                   _switchTile(
                     icon: Icons.flash_on,
-                    title: "Défis Extrèmes",
+                    title: I18nKeys.instance.categories.extremeChallenge.tr(),
                     value: enabledCategories.contains(
                       DiceCategory.challengeExtremeCategory,
                     ),
@@ -183,7 +303,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 _switchTile(
                   icon: Icons.sentiment_satisfied,
-                  title: "Question Fun",
+                  title: I18nKeys.instance.categories.funQuestion.tr(),
                   value: enabledCategories.contains(DiceCategory.funCategory),
                   onChanged: (val) {
                     ensureMinimumOneCategoryEnabled(
@@ -196,7 +316,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 _switchTile(
                   icon: Icons.whatshot,
-                  title: "WTF",
+                  title: I18nKeys.instance.categories.wtf.tr(),
                   value: enabledCategories.contains(DiceCategory.wtfCategory),
                   onChanged: (val) {
                     ensureMinimumOneCategoryEnabled(
@@ -210,7 +330,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 if (wtfPlusOwned)
                   _switchTile(
                     icon: Icons.star,
-                    title: "WTF+",
+                    title: I18nKeys.instance.categories.wtfPlus.tr(),
                     value: enabledCategories.contains(
                       DiceCategory.wtfPlusCategory,
                     ),
@@ -225,7 +345,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 _switchTile(
                   icon: Icons.videogame_asset,
-                  title: "Mini-jeux",
+                  title: I18nKeys.instance.categories.miniGames.tr(),
                   value: enabledCategories.contains(
                     DiceCategory.miniGameCategory,
                   ),
@@ -240,11 +360,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 const SizedBox(height: 30),
 
-                _sectionTitle("Options"),
+                _sectionTitle(I18nKeys.instance.settings.sectionStore.tr()),
 
                 _navTile(
                   icon: Icons.store,
-                  title: "Boutique",
+                  title: I18nKeys.instance.settings.store.tr(),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -256,7 +376,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 if (!removeAdsOwned)
                   _navTile(
                     icon: Icons.block,
-                    title: "Supprimer les pubs",
+                    title: I18nKeys.instance.settings.removeAds.tr(),
                     color: const Color(0xFF55E6C1),
                     onTap: () async {
                       await handleBuy(context, () async {
@@ -271,7 +391,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 _navTile(
                   icon: Icons.refresh,
-                  title: "Restaurer les achats",
+                  title: I18nKeys.instance.settings.restorePurchases.tr(),
                   onTap: () async {
                     await handleBuy(context, () async {
                       return await purchaseNotifier.restore();
@@ -282,11 +402,73 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 const SizedBox(height: 30),
 
-                _sectionTitle("Informations"),
+                _sectionTitle(I18nKeys.instance.settings.sectionSupport.tr()),
+
+                _infoTile(
+                  icon: Icons.support_agent,
+                  title: I18nKeys.instance.settings.contactSupport.tr(),
+                  onTap: () {
+                    openUrl(
+                      "mailto:support@clearforgestudio.com"
+                      "?subject=Support%20RollIt!",
+                    );
+                  },
+                ),
+
+                _infoTile(
+                  icon: Icons.lightbulb_outline,
+                  title: I18nKeys.instance.settings.suggestFeature.tr(),
+                  onTap: () {
+                    openUrl(
+                      "mailto:support@clearforgestudio.com"
+                      "?subject=Suggestion%20RollIt!",
+                    );
+                  },
+                ),
+
+                if (Platform.isAndroid)
+                  _infoTile(
+                    icon: Icons.share,
+                    title: I18nKeys.instance.settings.shareApp.tr(),
+                    onTap: () {
+                      Share.share(
+                        "https://play.google.com/store/apps/details?id=com.clearforge.rollit",
+                      );
+                    },
+                  ),
+
+                const SizedBox(height: 30),
+
+                _sectionTitle(
+                  I18nKeys.instance.settings.sectionCommunity.tr(),
+                ),
+
+                _infoTile(
+                  icon: Icons.star_rate_rounded,
+                  title: I18nKeys.instance.settings.rateTheApp.tr(),
+                  onTap: () async {
+                    ReviewService.openStore();
+                  },
+                ),
+
+                if (Platform.isAndroid)
+                  _infoTile(
+                    icon: Icons.storefront,
+                    title: I18nKeys.instance.settings.otherApps.tr(),
+                    onTap: () {
+                      openUrl(
+                        "https://play.google.com/store/apps/developer?id=Clearforge+Studio",
+                      );
+                    },
+                  ),
+
+                const SizedBox(height: 30),
+
+                _sectionTitle(I18nKeys.instance.settings.sectionLegal.tr()),
 
                 _infoTile(
                   icon: Icons.privacy_tip_outlined,
-                  title: "Politique de confidentialité",
+                  title: I18nKeys.instance.settings.privacyPolicy.tr(),
                   onTap: () {
                     openUrl(
                       "https://clearforgestudio.com/rollit/privacy-policy",
@@ -296,69 +478,24 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                 _infoTile(
                   icon: Icons.privacy_tip_outlined,
-                  title: "Gérer vos choix publicitaires",
+                  title: I18nKeys.instance.settings.adsPreferences.tr(),
                   onTap: () => ConsentManager.instance.showPrivacyOptionsForm(),
                 ),
 
-                _infoTile(
-                  icon: Icons.star_rate_rounded,
-                  title: "Noter l’application",
-                  onTap: () async {
-                    ReviewService.openStore();
-                  },
-                ),
+                const SizedBox(height: 30),
+
+                _sectionTitle(I18nKeys.instance.settings.sectionAbout.tr()),
 
                 _infoTile(
                   icon: Icons.info_outline,
-                  title: "À propos",
-                  onTap: () {
-                    showAboutDialog(
-                      context: context,
-                      applicationName: "RollIt!",
-                      applicationVersion: "1.0.0",
-                      applicationIcon: Container(
-                        width: 60,
-                        height: 60,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF7F3DFF), Color(0xFF46167A)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [],
-                        ),
-                        child: Image.asset(
-                          "assets/images/dice/challenge.png",
-                          color: Colors.white,
-                        ),
-                      ),
-                      applicationLegalese: "",
-                      children: [
-                        const SizedBox(height: 16),
-                        Text(
-                          "RollIt! est un jeu simple et fun pour dynamiser vos soirées.\n\n"
-                          "Lancez le dé, découvrez une catégorie, et réalisez une action amusante : "
-                          "imitations, défis, questions fun, WTF ou mini-jeux.\n\n"
-                          "Aucune inscription, aucune donnée collectée : vos préférences restent "
-                          "localement sur votre appareil.\n\n"
-                          "Merci d’utiliser RollIt! 🎲✨\nAmusez-vous bien !",
-                          style: const TextStyle(
-                            fontSize: 15,
-                            height: 1.35,
-                            color: Color(0xFF2C2C2C),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                  title: I18nKeys.instance.settings.about.tr(),
+                  onTap: _showAboutDialog,
                 ),
 
                 _infoTile(
                   icon: Icons.code,
-                  title: "Version",
-                  subtitle: "1.0.0",
+                  title: I18nKeys.instance.settings.version.tr(),
+                  subtitle: _versionLabel ?? "—",
                 ),
               ],
             ),
