@@ -72,6 +72,9 @@
         "missing_receipt": "Receipt file is missing. Please try again.",
         "already_purchased": "This product has already been purchased."
     },
+    "result": {
+        "start_timer": "Start the timer"
+    },
     "party_mode": {
         "turn_to_play": "{name}, it's your turn!",
         "tap_to_start": "Tap the dice to start",
@@ -80,7 +83,8 @@
         "tap_to_roll": "Tap the dice to roll",
         "add_players_to_start": "Add players to get started.",
         "pass": "Pass",
-        "done": "Done"
+        "done": "Done",
+        "rounds_progress": "Round {current}/{total}"
     },
     "party_mode_result": {
         "title": "Game over",

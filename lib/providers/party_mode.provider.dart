@@ -247,6 +247,20 @@ class PartyModeNotifier extends Notifier<PartyModeState> {
       finishedAt: null,
     );
   }
+
+  void resetScores() {
+    state = PartyModeState(
+      players: state.players,
+      scores: List<int>.filled(state.players.length, 0),
+      currentPlayerIndex: 0,
+      totalRounds: state.totalRounds,
+      roundsCompleted: 0,
+      categoryRollCounts: {},
+      playerCategoryRollCounts: {},
+      startedAt: null,
+      finishedAt: null,
+    );
+  }
 }
 
 final partyModeProvider = NotifierProvider<PartyModeNotifier, PartyModeState>(

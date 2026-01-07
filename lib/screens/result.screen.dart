@@ -35,6 +35,27 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
 
   final Random _random = Random();
 
+  String _localizedCategoryLabel(DiceCategory category) {
+    switch (category.id) {
+      case DiceCategory.imitationCategory:
+        return I18nKeys.instance.categories.imitation.tr();
+      case DiceCategory.challengeCategory:
+        return I18nKeys.instance.categories.challenge.tr();
+      case DiceCategory.challengeExtremeCategory:
+        return I18nKeys.instance.categories.extremeChallenge.tr();
+      case DiceCategory.funCategory:
+        return I18nKeys.instance.categories.funQuestion.tr();
+      case DiceCategory.wtfCategory:
+        return I18nKeys.instance.categories.wtf.tr();
+      case DiceCategory.wtfPlusCategory:
+        return I18nKeys.instance.categories.wtfPlus.tr();
+      case DiceCategory.miniGameCategory:
+        return I18nKeys.instance.categories.miniGames.tr();
+      default:
+        return category.label;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -136,7 +157,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
     setState(() {
       _categories = categories;
       _actions = actions;
-      _categoryLabel = category.label;
+      _categoryLabel = _localizedCategoryLabel(category);
       _categoryImagePath = category.imagePath;
       _actionText = action.text;
       _actionConstraints = action.constraints;
@@ -157,7 +178,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
     final action = categoryActions[_random.nextInt(categoryActions.length)];
 
     setState(() {
-      _categoryLabel = category.label;
+      _categoryLabel = _localizedCategoryLabel(category);
       _categoryImagePath = category.imagePath;
       _actionText = action.text;
       _actionConstraints = action.constraints;

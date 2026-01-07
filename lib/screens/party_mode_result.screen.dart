@@ -57,12 +57,29 @@ class _PartyModeResultScreenState extends ConsumerState<PartyModeResultScreen> {
   }
 
   String _categoryLabelForId(List<DiceCategory> categories, String id) {
-    for (final category in categories) {
-      if (category.id == id) {
-        return category.label;
-      }
+    switch (id) {
+      case DiceCategory.imitationCategory:
+        return I18nKeys.instance.categories.imitation.tr();
+      case DiceCategory.challengeCategory:
+        return I18nKeys.instance.categories.challenge.tr();
+      case DiceCategory.challengeExtremeCategory:
+        return I18nKeys.instance.categories.extremeChallenge.tr();
+      case DiceCategory.funCategory:
+        return I18nKeys.instance.categories.funQuestion.tr();
+      case DiceCategory.wtfCategory:
+        return I18nKeys.instance.categories.wtf.tr();
+      case DiceCategory.wtfPlusCategory:
+        return I18nKeys.instance.categories.wtfPlus.tr();
+      case DiceCategory.miniGameCategory:
+        return I18nKeys.instance.categories.miniGames.tr();
+      default:
+        for (final category in categories) {
+          if (category.id == id) {
+            return category.label;
+          }
+        }
+        return id;
     }
-    return id;
   }
 
   void _ensureHighlightCategory(
@@ -230,6 +247,7 @@ class _PartyModeResultScreenState extends ConsumerState<PartyModeResultScreen> {
                             await AdsService.instance
                                 .tryShowPartyInterstitial();
                             if (!context.mounted) return;
+                            ref.read(partyModeProvider.notifier).resetScores();
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               '/home',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:rollit/services/i18n.service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rollit/models/dice_action.model.dart';
 
@@ -135,7 +136,7 @@ class ResultCard extends StatelessWidget {
                   size: 18,
                 ),
                 label: Text(
-                  'Démarrer le chrono',
+                  I18nKeys.instance.result.startTimer.tr(),
                   style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,

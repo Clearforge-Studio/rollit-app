@@ -65,6 +65,30 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
     return null;
   }
 
+  String _localizedCategoryLabel(DiceCategory? category) {
+    if (category == null) {
+      return '';
+    }
+    switch (category.id) {
+      case DiceCategory.imitationCategory:
+        return I18nKeys.instance.categories.imitation.tr();
+      case DiceCategory.challengeCategory:
+        return I18nKeys.instance.categories.challenge.tr();
+      case DiceCategory.challengeExtremeCategory:
+        return I18nKeys.instance.categories.extremeChallenge.tr();
+      case DiceCategory.funCategory:
+        return I18nKeys.instance.categories.funQuestion.tr();
+      case DiceCategory.wtfCategory:
+        return I18nKeys.instance.categories.wtf.tr();
+      case DiceCategory.wtfPlusCategory:
+        return I18nKeys.instance.categories.wtfPlus.tr();
+      case DiceCategory.miniGameCategory:
+        return I18nKeys.instance.categories.miniGames.tr();
+      default:
+        return category.label;
+    }
+  }
+
   int _pointsForAction({
     required DiceCategory? category,
     required List<ActionConstraint> constraints,
@@ -306,11 +330,11 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
   Widget _buildResultCard() {
     final hasResult = _rolledCategory != null;
     final actionText = _rolledAction?.text;
-    final categoryTitle = _rolledCategory?.label ?? '';
+    final categoryTitle = _localizedCategoryLabel(_rolledCategory);
     final label = hasResult
         ? (actionText != null && actionText.isNotEmpty
               ? actionText.tr()
-              : (_rolledCategory?.label ?? ''))
+              : _localizedCategoryLabel(_rolledCategory))
         : "";
     final showCategoryTitle = hasResult && categoryTitle.isNotEmpty;
     final showStartButton =
@@ -596,7 +620,10 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, size: 28),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                ref.read(partyModeProvider.notifier).resetScores();
+                Navigator.pop(context);
+              },
             ),
           ),
           body: const Center(child: CircularProgressIndicator()),
@@ -611,7 +638,10 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, size: 28),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                ref.read(partyModeProvider.notifier).resetScores();
+                Navigator.pop(context);
+              },
             ),
           ),
           body: Center(
@@ -651,7 +681,10 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, size: 28),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              ref.read(partyModeProvider.notifier).resetScores();
+              Navigator.pop(context);
+            },
           ),
         ),
         body: Column(
@@ -672,6 +705,24 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
               ),
             ),
             SizedBox(height: topSpacing),
+            Text(
+              I18nKeys.instance.partyMode.roundsProgress.tr(
+                namedArgs: {
+                  'current':
+                      (partyState.roundsCompleted + 1)
+                          .clamp(1, partyState.totalRounds)
+                          .toString(),
+                  'total': partyState.totalRounds.toString(),
+                },
+              ),
+              style: GoogleFonts.poppins(
+                color: Colors.white.withValues(alpha: 0.7),
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.6,
+              ),
+            ),
+            const SizedBox(height: 12),
             Expanded(
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 320),

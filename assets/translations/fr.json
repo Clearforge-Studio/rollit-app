@@ -72,6 +72,9 @@
         "missing_receipt": "Le fichier de reçu est manquant. Veuillez réessayer.",
         "already_purchased": "Ce produit a déjà été acheté."
     },
+    "result": {
+        "start_timer": "Démarrer le chrono"
+    },
     "party_mode": {
         "turn_to_play": "C'est à {name} de jouer !",
         "tap_to_start": "Tape le dé pour commencer",
@@ -80,7 +83,8 @@
         "tap_to_roll": "Tape le dé pour lancer",
         "add_players_to_start": "Ajoute des joueurs pour commencer.",
         "pass": "Passer",
-        "done": "Fait"
+        "done": "Fait",
+        "rounds_progress": "Tour {current}/{total}"
     },
     "party_mode_result": {
         "title": "Fin de partie",

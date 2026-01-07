@@ -13,6 +13,7 @@ class I18nKeys {
   final RemoveAdsPaywallKeys removeAdsPaywall = RemoveAdsPaywallKeys.instance;
   final PaywallSheetKeys paywallSheet = PaywallSheetKeys.instance;
   final PurchaseErrorKeys purchaseErrors = PurchaseErrorKeys.instance;
+  final ResultKeys result = ResultKeys.instance;
 }
 
 class HomeKeys {
@@ -66,6 +67,7 @@ class PartyModeKeys {
   final String addPlayersToStart = "party_mode.add_players_to_start";
   final String pass = "party_mode.pass";
   final String done = "party_mode.done";
+  final String roundsProgress = "party_mode.rounds_progress";
 }
 
 class PartyModeResultKeys {
@@ -217,4 +219,11 @@ class PurchaseErrorKeys {
   final String receiptInUse = "purchase_errors.receipt_in_use";
   final String missingReceipt = "purchase_errors.missing_receipt";
   final String alreadyPurchased = "purchase_errors.already_purchased";
+}
+
+class ResultKeys {
+  static final ResultKeys instance = ResultKeys._internal();
+  ResultKeys._internal();
+
+  final String startTimer = "result.start_timer";
 }
