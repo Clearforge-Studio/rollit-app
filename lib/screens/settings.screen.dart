@@ -16,6 +16,7 @@ import 'package:rollit/services/review.service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:rollit/services/i18n.service.dart';
+import 'package:rollit/services/update.service.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -459,6 +460,35 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       openUrl(
                         "https://play.google.com/store/apps/developer?id=Clearforge+Studio",
                       );
+                    },
+                  ),
+
+                if (Platform.isAndroid)
+                  _infoTile(
+                    icon: Icons.system_update_alt,
+                    title: I18nKeys.instance.settings.checkUpdates.tr(),
+                    onTap: () async {
+                      final result = await UpdateService.checkForUpdates(
+                        force: true,
+                      );
+                      if (!context.mounted) return;
+                      if (result == UpdateCheckResult.noUpdate) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              I18nKeys.instance.settings.noUpdate.tr(),
+                            ),
+                          ),
+                        );
+                      } else if (result == UpdateCheckResult.failed) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              I18nKeys.instance.settings.updateCheckFailed.tr(),
+                            ),
+                          ),
+                        );
+                      }
                     },
                   ),
 

@@ -17,6 +17,7 @@ import 'package:rollit/services/preferences.service.dart';
 import 'package:rollit/services/purchase.service.dart';
 import 'package:flutter/material.dart';
 import 'package:rollit/services/review.service.dart';
+import 'package:rollit/services/update.service.dart';
 import 'package:rollit/utils/cache.dart';
 import 'package:flutter/services.dart';
 
@@ -79,6 +80,7 @@ class _RollitAppState extends ConsumerState<RollitApp> {
     super.initState();
     ref.read(categoryProvider.notifier).loadCategories();
     ref.read(actionProvider.notifier).loadActions();
+    UpdateService.checkForUpdates();
   }
 
   @override

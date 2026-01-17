@@ -120,6 +120,9 @@ class SettingsKeys {
   final String suggestFeature = "settings.suggest_feature";
   final String shareApp = "settings.share_app";
   final String otherApps = "settings.other_apps";
+  final String checkUpdates = "settings.check_updates";
+  final String noUpdate = "settings.no_update";
+  final String updateCheckFailed = "settings.update_check_failed";
   final String privacyPolicy = "settings.privacy_policy";
   final String adsPreferences = "settings.ads_preferences";
   final String rateTheApp = "settings.rate_the_app";

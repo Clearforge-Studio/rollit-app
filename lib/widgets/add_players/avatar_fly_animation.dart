@@ -15,7 +15,7 @@ void animateAvatarToGrid({
   final overlay = Overlay.of(context);
   final fromBox = fromKey.currentContext?.findRenderObject() as RenderBox?;
   final toBox = toKey.currentContext?.findRenderObject() as RenderBox?;
-  if (overlay == null || fromBox == null || toBox == null) {
+  if (fromBox == null || toBox == null) {
     return;
   }
 

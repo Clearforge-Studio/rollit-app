@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:rollit/services/purchase.service.dart';
 
