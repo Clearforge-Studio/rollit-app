@@ -217,6 +217,49 @@ class PartyModeNotifier extends Notifier<PartyModeState> {
     );
   }
 
+  void undoCategoryRoll(String categoryId) {
+    if (state.players.isEmpty) {
+      return;
+    }
+
+    final updatedCategoryCounts = Map<String, int>.from(
+      state.categoryRollCounts,
+    );
+    final currentCount = updatedCategoryCounts[categoryId] ?? 0;
+    if (currentCount > 1) {
+      updatedCategoryCounts[categoryId] = currentCount - 1;
+    } else {
+      updatedCategoryCounts.remove(categoryId);
+    }
+
+    final updatedPlayerCounts = Map<int, Map<String, int>>.from(
+      state.playerCategoryRollCounts,
+    );
+    final playerIndex = state.currentPlayerIndex;
+    final playerCounts = Map<String, int>.from(
+      updatedPlayerCounts[playerIndex] ?? {},
+    );
+    final playerCount = playerCounts[categoryId] ?? 0;
+    if (playerCount > 1) {
+      playerCounts[categoryId] = playerCount - 1;
+    } else {
+      playerCounts.remove(categoryId);
+    }
+    updatedPlayerCounts[playerIndex] = playerCounts;
+
+    state = PartyModeState(
+      players: state.players,
+      scores: state.scores,
+      currentPlayerIndex: state.currentPlayerIndex,
+      totalRounds: state.totalRounds,
+      roundsCompleted: state.roundsCompleted,
+      categoryRollCounts: updatedCategoryCounts,
+      playerCategoryRollCounts: updatedPlayerCounts,
+      startedAt: state.startedAt,
+      finishedAt: state.finishedAt,
+    );
+  }
+
   void markGameFinished() {
     if (state.finishedAt != null) {
       return;

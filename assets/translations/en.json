@@ -87,7 +87,11 @@
         "add_players_to_start": "Add players to get started.",
         "pass": "Pass",
         "done": "Done",
-        "rounds_progress": "Round {current}/{total}"
+        "rounds_progress": "Round {current}/{total}",
+        "reroll_with_ad": "Re-roll (ad)",
+        "reroll_ad_failed": "Can't re-roll right now.",
+        "reroll_limit": "1 re-roll per turn",
+        "reroll": "Re-roll"
     },
     "party_mode_result": {
         "title": "Game over",

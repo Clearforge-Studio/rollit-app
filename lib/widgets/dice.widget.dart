@@ -19,6 +19,7 @@ class Dice extends ConsumerStatefulWidget {
   final double size;
   final ValueChanged<DiceCategory> onRollComplete;
   final Function? onRollStart;
+  final DiceController? controller;
   final bool hideDiceOnComplete;
   final bool hideDiceInitially;
   final String diceText;
@@ -34,6 +35,7 @@ class Dice extends ConsumerStatefulWidget {
     required this.onRollComplete,
     this.onRollStart,
     required this.initialFacePath,
+    this.controller,
     this.hideDiceOnComplete = false,
     this.hideDiceInitially = false,
     this.diceText = "Roll!",
@@ -69,6 +71,8 @@ class _DiceState extends ConsumerState<Dice>
     if (widget.hideDiceInitially) {
       _hideDice = true;
     }
+
+    widget.controller?._attach(this);
   }
 
   @override
@@ -78,12 +82,28 @@ class _DiceState extends ConsumerState<Dice>
     if (_currentLogicalIndex >= widget.categories.length) {
       setState(() => _currentLogicalIndex = -1);
     }
+
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?._detach(this);
+      widget.controller?._attach(this);
+    }
   }
 
   @override
   void dispose() {
+    widget.controller?._detach(this);
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _rollProgrammatically() async {
+    if (_isRolling || widget.categories.isEmpty || !widget.isEnabled) {
+      return;
+    }
+    setState(() {
+      _hideDice = false;
+    });
+    roll(context);
   }
 
   void roll(BuildContext context) async {
@@ -191,13 +211,14 @@ class _DiceState extends ConsumerState<Dice>
         _currentLogicalIndex >= 0 &&
         _currentLogicalIndex < widget.categories.length;
 
-    final fallbackImage =
-        widget.categories.isNotEmpty ? widget.categories[0].imagePath : '';
+    final fallbackImage = widget.categories.isNotEmpty
+        ? widget.categories[0].imagePath
+        : '';
     final displayedImage = hasValidIndex
         ? widget.categories[_currentLogicalIndex].imagePath
         : (widget.initialFacePath.isNotEmpty
-            ? widget.initialFacePath
-            : fallbackImage);
+              ? widget.initialFacePath
+              : fallbackImage);
 
     return GestureDetector(
       onTap: widget.isEnabled
@@ -252,23 +273,22 @@ class _DiceState extends ConsumerState<Dice>
                 if (!_hideDice && widget.showButton) const SizedBox(height: 40),
                 if (widget.showButton)
                   GestureDetector(
-                    onTap:
-                        widget.isEnabled
-                            ? () async {
-                                final canAsk =
-                                    await ReviewService.canAskForReview();
-                                if (!context.mounted) return;
-                                if (canAsk) {
-                                  return await showRateAppDialog(context);
-                                }
+                    onTap: widget.isEnabled
+                        ? () async {
+                            final canAsk =
+                                await ReviewService.canAskForReview();
+                            if (!context.mounted) return;
+                            if (canAsk) {
+                              return await showRateAppDialog(context);
+                            }
 
-                                setState(() {
-                                  _hideDice = false;
-                                });
+                            setState(() {
+                              _hideDice = false;
+                            });
 
-                                roll(context);
-                              }
-                            : null,
+                            roll(context);
+                          }
+                        : null,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 64,
@@ -286,9 +306,9 @@ class _DiceState extends ConsumerState<Dice>
                         borderRadius: BorderRadius.circular(64),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFFF3EDF).withValues(
-                              alpha: 0.4,
-                            ),
+                            color: const Color(
+                              0xFFFF3EDF,
+                            ).withValues(alpha: 0.4),
                             blurRadius: 22,
                             spreadRadius: 1,
                             offset: const Offset(0, 6),
@@ -312,5 +332,23 @@ class _DiceState extends ConsumerState<Dice>
         ),
       ),
     );
+  }
+}
+
+class DiceController {
+  _DiceState? _state;
+
+  void _attach(_DiceState state) {
+    _state = state;
+  }
+
+  void _detach(_DiceState state) {
+    if (_state == state) {
+      _state = null;
+    }
+  }
+
+  Future<void> roll() async {
+    await _state?._rollProgrammatically();
   }
 }

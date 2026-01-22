@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:rollit/services/purchase.service.dart';
@@ -10,6 +11,9 @@ class AdsService {
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
   final int maxFailedLoadAttempts = 3;
+  RewardedAd? _rewardedAd;
+  int _numRewardedLoadAttempts = 0;
+  final int maxFailedRewardedLoadAttempts = 3;
 
   // compteur pour décider quand afficher une pub
   int actionCount = 0;
@@ -35,9 +39,28 @@ class AdsService {
     return "";
   }
 
+  static String get rewardedAdUnitId {
+    if (Platform.isAndroid) {
+      if (kDebugMode) {
+        return "ca-app-pub-3940256099942544/5224354917"; // TEST Android
+      }
+
+      return "ca-app-pub-2859118390192986/3053775724"; // PROD Android
+    } else if (Platform.isIOS) {
+      if (kDebugMode) {
+        return "ca-app-pub-3940256099942544/1712485313"; // TEST iOS
+      }
+
+      return "";
+    }
+
+    return "";
+  }
+
   Future<void> init() async {
     await MobileAds.instance.initialize();
     _createInterstitialAd();
+    _createRewardedAd();
   }
 
   // CHARGEMENT INTERSTITIEL ---------------------------------------------------
@@ -79,6 +102,39 @@ class AdsService {
 
           if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
             _createInterstitialAd();
+          }
+        },
+      ),
+    );
+  }
+
+  // CHARGEMENT REWARDED ------------------------------------------------------
+
+  void _createRewardedAd() {
+    if (PurchaseService.instance.adsRemoved) {
+      print("Ads disabled (Remove Ads acheté)");
+      return;
+    }
+    final adUnitId = rewardedAdUnitId;
+    if (adUnitId.isEmpty) {
+      return;
+    }
+    RewardedAd.load(
+      adUnitId: adUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (RewardedAd ad) {
+          print("Rewarded Loaded");
+          _rewardedAd = ad;
+          _numRewardedLoadAttempts = 0;
+          ad.setImmersiveMode(true);
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print("Failed to load rewarded: $error");
+          _numRewardedLoadAttempts += 1;
+          _rewardedAd = null;
+          if (_numRewardedLoadAttempts < maxFailedRewardedLoadAttempts) {
+            _createRewardedAd();
           }
         },
       ),
@@ -137,9 +193,57 @@ class AdsService {
     }
   }
 
+  Future<bool> showRewardedAd() async {
+    if (PurchaseService.instance.adsRemoved) {
+      print("Ads disabled (Remove Ads)");
+      return false;
+    }
+    if (kIsWeb || !Platform.isAndroid) {
+      return false;
+    }
+
+    if (_rewardedAd == null) {
+      _createRewardedAd();
+      return false;
+    }
+
+    final ad = _rewardedAd!;
+    _rewardedAd = null;
+
+    final completer = Completer<bool>();
+    var rewarded = false;
+
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (RewardedAd ad) {
+        ad.dispose();
+        _createRewardedAd();
+        if (!completer.isCompleted) {
+          completer.complete(rewarded);
+        }
+      },
+      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+        ad.dispose();
+        _createRewardedAd();
+        if (!completer.isCompleted) {
+          completer.complete(false);
+        }
+      },
+    );
+
+    ad.show(onUserEarnedReward: (_, __) {
+      rewarded = true;
+      if (!completer.isCompleted) {
+        completer.complete(true);
+      }
+    });
+
+    return completer.future;
+  }
+
   // CLEANUP -------------------------------------------------------------------
 
   void dispose() {
     _interstitialAd?.dispose();
+    _rewardedAd?.dispose();
   }
 }

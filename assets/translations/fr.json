@@ -87,7 +87,11 @@
         "add_players_to_start": "Ajoute des joueurs pour commencer.",
         "pass": "Passer",
         "done": "Fait",
-        "rounds_progress": "Tour {current}/{total}"
+        "rounds_progress": "Tour {current}/{total}",
+        "reroll_with_ad": "Relancer (pub)",
+        "reroll_ad_failed": "Impossible de relancer pour le moment.",
+        "reroll_limit": "1 relance par tour",
+        "reroll": "Relancer"
     },
     "party_mode_result": {
         "title": "Fin de partie",

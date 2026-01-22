@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,10 @@ import 'package:rollit/models/dice_category.model.dart';
 import 'package:rollit/providers/action.provider.dart';
 import 'package:rollit/providers/category.provider.dart';
 import 'package:rollit/providers/party_mode.provider.dart';
+import 'package:rollit/services/ads.service.dart';
 import 'package:rollit/services/i18n.service.dart';
 import 'package:rollit/services/preferences.service.dart';
+import 'package:rollit/services/purchase.service.dart';
 import 'package:rollit/widgets/add_players/avatar_utils.dart';
 import 'package:rollit/widgets/app_background.widget.dart';
 import 'package:rollit/widgets/dice.widget.dart';
@@ -29,6 +32,9 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
   DiceActionItem? _rolledAction;
   List<ActionConstraint> _actionConstraints = [];
   int _actionPoints = 0;
+  bool _rerollUsedThisTurn = false;
+  bool _rerollInProgress = false;
+  final DiceController _diceController = DiceController();
   int? _timerDurationSeconds;
   int? _timerRemainingSeconds;
   Timer? _timer;
@@ -194,6 +200,8 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
       _rolledAction = null;
       _actionConstraints = [];
       _actionPoints = 0;
+      _rerollUsedThisTurn = false;
+      _rerollInProgress = false;
       _timerDurationSeconds = null;
       _timerRemainingSeconds = null;
     });
@@ -214,6 +222,8 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
       _rolledAction = null;
       _actionConstraints = [];
       _actionPoints = 0;
+      _rerollUsedThisTurn = false;
+      _rerollInProgress = false;
       _timerDurationSeconds = null;
       _timerRemainingSeconds = null;
     });
@@ -221,6 +231,59 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
     _maybeFinishGame();
   }
 
+  Future<void> _handleRewardedReroll() async {
+    if (_rerollUsedThisTurn || _rerollInProgress) {
+      return;
+    }
+    setState(() {
+      _rerollInProgress = true;
+    });
+    final rewarded = await AdsService.instance.showRewardedAd();
+    if (!mounted) return;
+    if (!rewarded) {
+      setState(() {
+        _rerollInProgress = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(I18nKeys.instance.partyMode.rerollAdFailed.tr()),
+        ),
+      );
+      return;
+    }
+    _performReroll();
+  }
+
+  void _handlePremiumReroll() {
+    if (_rerollUsedThisTurn || _rerollInProgress) {
+      return;
+    }
+    _performReroll();
+  }
+
+  void _performReroll() {
+    final rolledCategory = _rolledCategory;
+    if (rolledCategory != null) {
+      ref.read(partyModeProvider.notifier).undoCategoryRoll(rolledCategory.id);
+    }
+
+    _timer?.cancel();
+    _timer = null;
+    setState(() {
+      _rerollUsedThisTurn = true;
+      _rerollInProgress = false;
+      _rolledCategory = null;
+      _rolledAction = null;
+      _actionConstraints = [];
+      _actionPoints = 0;
+      _timerDurationSeconds = null;
+      _timerRemainingSeconds = null;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _diceController.roll();
+    });
+  }
   void _maybeFinishGame() {
     final partyState = ref.read(partyModeProvider);
     if (partyState.roundsCompleted >= partyState.totalRounds) {
@@ -343,6 +406,10 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
     final isEndingSoon = showCountdown && (_timerRemainingSeconds ?? 0) <= 3;
     final timerColor = isEndingSoon ? const Color(0xFFFF6B6B) : Colors.white;
     final showPoints = hasResult && _actionPoints > 0;
+    final isPremium = PurchaseService.instance.adsRemoved;
+    final canShowAdReroll = !isPremium && Platform.isAndroid;
+    final showRerollButton =
+        hasResult && !_rerollUsedThisTurn && (isPremium || canShowAdReroll);
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -412,6 +479,45 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
                     fontSize: 13,
                     color: const Color(0xFFFFE7A0),
                   ),
+                ),
+              ),
+            if (showRerollButton) const SizedBox(height: 10),
+            if (showRerollButton)
+              TextButton.icon(
+                onPressed: _rerollInProgress
+                    ? null
+                    : (isPremium ? _handlePremiumReroll : _handleRewardedReroll),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white.withValues(alpha: 0.14),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                ),
+                icon: const Icon(
+                  Icons.play_circle_fill,
+                  color: Colors.white,
+                  size: 18,
+                ),
+                label: Text(
+                  isPremium
+                      ? I18nKeys.instance.partyMode.reroll.tr()
+                      : I18nKeys.instance.partyMode.rerollWithAd.tr(),
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            if (showRerollButton) const SizedBox(height: 6),
+            if (showRerollButton)
+              Text(
+                I18nKeys.instance.partyMode.rerollLimit.tr(),
+                style: GoogleFonts.poppins(
+                  color: Colors.white.withValues(alpha: 0.6),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             if (showStartButton) const SizedBox(height: 12),
@@ -537,6 +643,7 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
           ),
         ),
         Dice(
+          controller: _diceController,
           categories: categories,
           onRollComplete: (category) {
             ref.read(partyModeProvider.notifier).startGameIfNeeded();
@@ -708,10 +815,9 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
             Text(
               I18nKeys.instance.partyMode.roundsProgress.tr(
                 namedArgs: {
-                  'current':
-                      (partyState.roundsCompleted + 1)
-                          .clamp(1, partyState.totalRounds)
-                          .toString(),
+                  'current': (partyState.roundsCompleted + 1)
+                      .clamp(1, partyState.totalRounds)
+                      .toString(),
                   'total': partyState.totalRounds.toString(),
                 },
               ),

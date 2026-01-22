@@ -68,6 +68,10 @@ class PartyModeKeys {
   final String pass = "party_mode.pass";
   final String done = "party_mode.done";
   final String roundsProgress = "party_mode.rounds_progress";
+  final String rerollWithAd = "party_mode.reroll_with_ad";
+  final String rerollAdFailed = "party_mode.reroll_ad_failed";
+  final String rerollLimit = "party_mode.reroll_limit";
+  final String reroll = "party_mode.reroll";
 }
 
 class PartyModeResultKeys {
