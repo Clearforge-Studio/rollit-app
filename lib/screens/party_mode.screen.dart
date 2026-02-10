@@ -10,6 +10,7 @@ import 'package:rollit/models/dice_category.model.dart';
 import 'package:rollit/providers/action.provider.dart';
 import 'package:rollit/providers/category.provider.dart';
 import 'package:rollit/providers/party_mode.provider.dart';
+import 'package:rollit/screens/party_mode_result.screen.dart';
 import 'package:rollit/services/ads.service.dart';
 import 'package:rollit/services/i18n.service.dart';
 import 'package:rollit/services/preferences.service.dart';
@@ -17,6 +18,7 @@ import 'package:rollit/services/purchase.service.dart';
 import 'package:rollit/widgets/add_players/avatar_utils.dart';
 import 'package:rollit/widgets/app_background.widget.dart';
 import 'package:rollit/widgets/dice.widget.dart';
+import 'package:rollit/widgets/transition/slide_transition.dart';
 import 'package:vibration/vibration.dart';
 
 class PartyModeScreen extends ConsumerStatefulWidget {
@@ -289,7 +291,10 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
     if (partyState.roundsCompleted >= partyState.totalRounds) {
       ref.read(partyModeProvider.notifier).markGameFinished();
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/party_mode_result');
+      Navigator.pushReplacement(
+        context,
+        slideTransition(const PartyModeResultScreen()),
+      );
     }
   }
 
@@ -733,7 +738,9 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
               },
             ),
           ),
-          body: const Center(child: CircularProgressIndicator()),
+          body: const SafeArea(
+            child: Center(child: CircularProgressIndicator()),
+          ),
         ),
       );
     }
@@ -751,10 +758,12 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
               },
             ),
           ),
-          body: Center(
-            child: Text(
-              I18nKeys.instance.partyMode.addPlayersToStart.tr(),
-              style: GoogleFonts.poppins(color: Colors.white, fontSize: 18),
+          body: SafeArea(
+            child: Center(
+              child: Text(
+                I18nKeys.instance.partyMode.addPlayersToStart.tr(),
+                style: GoogleFonts.poppins(color: Colors.white, fontSize: 18),
+              ),
             ),
           ),
         ),
@@ -794,8 +803,10 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
             },
           ),
         ),
-        body: Column(
-          children: [
+        body: SafeArea(
+          top: false,
+          child: Column(
+            children: [
             const SizedBox(height: 8),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -935,7 +946,8 @@ class _PartyModeScreenState extends ConsumerState<PartyModeScreen>
                 ],
               ),
             ),
-          ],
+            ],
+          ),
         ),
       ),
     );

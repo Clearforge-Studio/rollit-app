@@ -30,10 +30,10 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
             .copyWith(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: Brightness.dark,
-              systemStatusBarContrastEnforced: true,
-
-              systemNavigationBarColor: Color.fromARGB(255, 38, 10, 85),
-              systemNavigationBarContrastEnforced: true,
+              systemStatusBarContrastEnforced: false,
+              systemNavigationBarColor: Colors.transparent,
+              systemNavigationBarDividerColor: Colors.transparent,
+              systemNavigationBarContrastEnforced: false,
               systemNavigationBarIconBrightness: Brightness.light,
             ),
         title: Text(
@@ -52,12 +52,14 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 650.0),
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
+      body: SafeArea(
+        top: false,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 650.0),
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
               _sectionTitle(I18nKeys.instance.store.premiumPacks.tr()),
 
               const SizedBox(height: 16),
@@ -130,7 +132,8 @@ class _StoreScreenState extends ConsumerState<StoreScreen> {
                   setState(() {});
                 },
               ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

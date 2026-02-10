@@ -24,8 +24,10 @@ import 'package:flutter/services.dart';
 const uiStyle = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
   statusBarIconBrightness: Brightness.light,
-  systemStatusBarContrastEnforced: true,
+  systemStatusBarContrastEnforced: false,
 
+  systemNavigationBarColor: Colors.transparent,
+  systemNavigationBarDividerColor: Colors.transparent,
   systemNavigationBarContrastEnforced: false,
   systemNavigationBarIconBrightness: Brightness.light,
 );
@@ -49,6 +51,7 @@ void main() async {
     ReviewService.registerSession(),
   ]);
 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(uiStyle);
 
   if (kDebugMode) {

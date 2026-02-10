@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rollit/providers/category.provider.dart';
+import 'package:rollit/screens/add_players.screen.dart';
 import 'package:rollit/screens/result.screen.dart';
 import 'package:rollit/services/i18n.service.dart';
 import 'package:rollit/widgets/app_background.widget.dart';
@@ -25,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
               .copyWith(
                 statusBarColor: Colors.transparent,
                 statusBarIconBrightness: Brightness.dark,
-                systemStatusBarContrastEnforced: true,
+                systemStatusBarContrastEnforced: false,
               ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -39,11 +40,13 @@ class HomeScreen extends ConsumerWidget {
             ),
           ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+        body: SafeArea(
+          top: false,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -82,7 +85,10 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/add_players');
+                  Navigator.push(
+                    context,
+                    slideTransition(const AddPlayersScreen()),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -107,7 +113,8 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

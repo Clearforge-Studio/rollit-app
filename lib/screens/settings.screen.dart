@@ -190,10 +190,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             .copyWith(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: Brightness.dark,
-              systemStatusBarContrastEnforced: true,
-
-              systemNavigationBarColor: Color.fromARGB(255, 38, 10, 85),
-              systemNavigationBarContrastEnforced: true,
+              systemStatusBarContrastEnforced: false,
+              systemNavigationBarColor: Colors.transparent,
+              systemNavigationBarDividerColor: Colors.transparent,
+              systemNavigationBarContrastEnforced: false,
               systemNavigationBarIconBrightness: Brightness.light,
             ),
         title: Text(
@@ -212,14 +212,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 40.0),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 650.0),
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              children: [
+      body: SafeArea(
+        top: false,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 40.0),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 650.0),
+              child: ListView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                children: [
                 _sectionTitle(
                   I18nKeys.instance.settings.sectionPreferences.tr(),
                 ),
@@ -527,7 +532,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   title: I18nKeys.instance.settings.version.tr(),
                   subtitle: _versionLabel ?? "—",
                 ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

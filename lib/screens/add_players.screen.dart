@@ -5,6 +5,7 @@ import 'package:rollit/widgets/app_background.widget.dart';
 import 'package:rollit/services/i18n.service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:rollit/providers/party_mode.provider.dart';
+import 'package:rollit/screens/party_mode.screen.dart';
 import 'package:rollit/widgets/add_players/avatar_fly_animation.dart';
 import 'package:rollit/widgets/add_players/avatar_picker_sheet.dart';
 import 'package:rollit/widgets/add_players/draft_player_card.dart';
@@ -14,6 +15,7 @@ import 'package:rollit/widgets/add_players/max_players_banner.dart';
 import 'package:rollit/widgets/add_players/players_header.dart';
 import 'package:rollit/widgets/add_players/selected_players_grid.dart';
 import 'package:rollit/widgets/add_players/start_game_button.dart';
+import 'package:rollit/widgets/transition/slide_transition.dart';
 
 class AddPlayersScreen extends ConsumerStatefulWidget {
   const AddPlayersScreen({super.key});
@@ -231,11 +233,13 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               if (partyState.players.isEmpty) ...[
                 AddPlayersEmptyStateCard(
                   title: I18nKeys.instance.addPlayers.emptyTitle.tr(),
@@ -372,10 +376,14 @@ class _AddPlayersScreenState extends ConsumerState<AddPlayersScreen>
                 StartGameButton(
                   label: I18nKeys.instance.addPlayers.startGame.tr(),
                   enabled: canStartGame,
-                  onPressed: () => Navigator.pushNamed(context, '/party_mode'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    slideTransition(const PartyModeScreen()),
+                  ),
                 ),
               ],
-            ],
+              ],
+            ),
           ),
         ),
       ),
