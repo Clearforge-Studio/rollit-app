@@ -1,273 +1,225 @@
-# Cahier des Charges – Rollit (V1)
+# Cahier des Charges – Rollit (Etat reel pre-release)
 
-## 1. Résumé du projet
+## 1. Objet du document
 
-Rollit est une application mobile destinée à animer les soirées entre amis.
-Le principe : l’utilisateur lance deux dés virtuels qui génèrent une combinaison _Catégorie + Action_, affichée sous forme de carte.
-La V1 se veut simple, rapide à développer, et servira de base à une évolution premium (mode Couple).
+Ce CDC decrit l'etat actuel de l'application Rollit (pre-release), en remplacement de l'ancien CDC V1 qui n'etait plus aligne avec le produit.
 
 ---
 
-## 2. Objectifs
+## 2. Vision produit
 
-### 2.1 Objectifs fonctionnels
+Rollit est un jeu mobile de soiree avec deux experiences:
 
--   Permettre à l'utilisateur de lancer deux dés virtuels.
--   Animer le lancer avec une animation légère.
--   Générer une action basée sur la catégorie tirée.
--   Afficher une carte résultat avec : icône, catégorie, action, bouton relancer.
--   Proposer un menu avec :
-    -   Packs premium
-    -   Suppression de la publicité
-    -   Paramètres (langue, vibration, sons)
-    -   À propos
--   Intégrer de la publicité (AdMob).
--   Intégrer les achats intégrés (packs + retrait pub).
--   Utiliser un stockage local (JSON) pour les données du jeu.
+- Mode classique (solo/groupe libre): tirage d'une categorie + action.
+- Mode party (multijoueur local): gestion de joueurs, tours, points, manches et ecran de fin de partie.
 
-### 2.2 Objectifs business
-
--   Monétiser via :
-    -   Packs premium (WTF+, Défis Extrêmes…)
-    -   Suppression des publicités
-    -   Packs futurs liés au mode Couple
--   Lancer une V1 minimaliste afin de valider la traction rapidement.
--   Préparer une base évolutive permettant d’ajouter facilement de nouveaux contenus.
+Objectif principal: proposer des parties rapides, fun, monétisables sans bloquer la progression de base.
 
 ---
 
-## 3. Public cible
+## 3. Plateformes et stack
 
--   Adultes 18–35 ans
--   Groupes d’amis en soirée
--   Étudiants
--   Familles (selon packs)
--   Couples (pour la version 2)
+- Framework: Flutter (Dart)
+- Plateformes cibles: Android (prioritaire), iOS (supporte), Web non cible
+- Etat UI systeme: edge-to-edge active
+- Donnees de jeu: JSON local (pas de backend)
 
----
+Dependances clefs:
 
-## 4. Plateformes visées
-
--   Android (prioritaire)
--   iOS (optionnel en V2)
-
-Technologie : Flutter (cross-platform).
+- State management: Riverpod
+- I18n: easy_localization
+- Ads: Google Mobile Ads (interstitial + rewarded)
+- IAP: RevenueCat (`purchases_flutter`)
+- Update Android: `in_app_update` (mode flexible non bloquant)
 
 ---
 
-## 5. Fonctionnalités de la V1
+## 4. Parcours utilisateur
 
-### 5.1 Écran d’accueil
+### 4.1 Home
 
--   Affichage du logo Rollit.
--   Gros bouton “Lancer les dés”.
--   Accès au menu via icône hamburguer.
+- Affichage logo/titre.
+- De principal pour lancer le mode classique.
+- Bouton secondaire vers le mode party.
+- Acces Settings.
 
-### 5.2 Lancer de dés
+### 4.2 Mode classique
 
--   Animation légère de deux dés stylisés.
--   Résultat : Catégorie + Action.
+- Ecran resultat affichant categorie + action.
+- Relance via de.
+- Gestion des contraintes d'action (ex: duree).
+- Bouton "Demarrer le chrono" quand une contrainte `duration` existe.
+- Traduction des noms de categories et des textes d'action.
 
-### 5.3 Écran résultat
+### 4.3 Mode party - Lobby joueurs
 
--   Icône de la catégorie.
--   Nom de la catégorie.
--   Texte de l’action.
--   Bouton “Relancer”.
--   Option de partage (optionnel).
+- Min 2 joueurs pour commencer, max 8.
+- Ajout joueur via carte brouillon (nom + avatar).
+- Creation automatique d'une 2e carte apres validation du 1er joueur (fluidifier l'ajout minimum).
+- Bouton "+" grise et desactive si une carte d'ajout est deja en cours.
+- Choix du nombre de manches: 3, 5, 10, ou personnalise (1 a 99).
 
-### 5.4 Menu (navigation)
+### 4.4 Mode party - Partie
 
--   Packs Premium
--   Retirer les pubs
--   Langue
--   Sons / Vibration
--   À propos
+- Un joueur actif a la fois, avec avatars/scores en header.
+- Progression manches affichee en `x/x`.
+- Actions possibles:
+  - `Passe`: 0 point.
+  - `Termine`: validation et attribution de points.
+- Chrono optionnel selon contrainte `duration`.
 
-### 5.5 Boutique (IAP)
+### 4.5 Mode party - Reroll
 
--   Pack “WTF+”
--   Suppression des pubs
--   Packs “à venir” affichés pour teasing
--   Intégration Google Play Billing
+- Regle: 1 seul reroll autorise par tour.
+- Non premium Android: reroll via rewarded ad.
+- Premium: reroll direct sans pub.
+- Comportement: tap reroll -> pub -> retour pub -> relance automatique du de.
 
-### 5.6 Publicités
+### 4.6 Fin de partie party
 
--   AdMob interstitiel toutes les 3 à 5 cartes.
--   Possibilité de désactiver via achat.
+Carte de resultat affichant:
 
-### 5.7 Gestion des données
+- Gagnant (nom + score + avatar(s) en cas d'egalite).
+- Categorie la plus tiree.
+- Duree de partie.
+- Carte highlight categorie avec joueur ayant le plus tire cette categorie (avatar inclus).
 
--   Stockage local JSON :
-    -   Liste des catégories
-    -   Actions par catégorie
--   Aucune inscription nécessaire.
--   Pas de backend pour la V1.
+Actions:
 
----
+- Retour accueil.
+- Rejouer.
 
-## 6. Contenu du jeu
-
-### 6.1 Catégories initiales
-
--   Imitation
--   Défi
--   Question Fun
--   WTF
--   Mini-jeux
-
-### 6.2 Volume de contenu
-
--   15 à 20 actions par catégorie
--   Total cible : 80 à 100 actions
+Les deux actions peuvent declencher l'interstitiel party (selon cadence, voir section Ads).
 
 ---
 
-## 7. Design & UX
+## 5. Regles de score party
 
-### 7.1 Style visuel
+Le score n'est plus binaire (0/1). Les points dependent de la difficulte:
 
--   Style “fun premium”
--   Couleurs pastel / bleus / violets / menthe
--   Dés stylisés, arrondis, avec ombres douces
--   Interfaces légères, modernes, lisibles
+- Base par categorie:
+  - `imitation`, `fun`: 1 point
+  - `challenge`, `wtf`, `mini_game`: 2 points
+  - `challenge_extreme`, `wtf_plus`: 3 points
+- Bonus duree (`duration`):
+  - >= 10s: +1
+  - >= 20s: +2
 
-### 7.2 UX
-
--   Navigation minimaliste
--   Temps d’accès à une action < 2 secondes
--   Animations légères (rebond, fade-in/out)
--   Large bouton principal
+Le nombre de points accordes est affiche sur la carte action party (`+X pts`).
 
 ---
 
-## 8. Architecture technique
+## 6. Monétisation (IAP)
 
-### 8.1 Stack
+Entitlements RevenueCat:
 
--   Flutter (Dart)
--   JSON local pour le contenu
--   Google AdMob
--   Google Billing (IAP)
+- `wtf_plus`
+- `challenge_extreme`
+- `remove_ads`
 
-### 8.2 Organisation des fichiers
+Regle importante:
 
-```
-assets/
-  images/
-lib/
-  main.dart
-  models/
-      category.dart
-      action.dart
-  screens/
-      home_screen.dart
-      result_screen.dart
-      settings_screen.dart
-      store_screen.dart
-  widgets/
-      dice_widget.dart
-      action_card.dart
-  services/
-      ads_service.dart
-      purchase_service.dart
-      random_service.dart
-      data_service.dart
-  data/
-      categories.json
-      actions.json
-```
+- `adsRemoved = true` si `remove_ads` est actif **ou** si un pack premium (`wtf_plus` ou `challenge_extreme`) est possede.
+
+Ecrans/tuiles:
+
+- Store dedie.
+- Paywall global (packs + remove ads).
+- Etat "achete" visible sur les produits deja possedes.
+
+Affichage paywall global:
+
+- Declenche apres seuil de rolls (49), une seule fois, et uniquement s'il reste des packs a acheter.
 
 ---
 
-## 9. Roadmap de développement (7 à 10 jours)
+## 7. Publicites
 
-### Jour 1
+### 7.1 Interstitiel standard
 
--   Setup du projet Flutter
--   Architecture initiale
--   Création des JSON
+- Cadence: 1 interstitiel toutes les 10 actions (rolls).
+- Desactive si ads retirees/premium.
 
-### Jour 2
+### 7.2 Interstitiel party de fin de partie
 
--   Écran Home
--   Style + bouton principal
+- Declenche apres fin de game party:
+  - 1re partie terminee: affiche
+  - puis toutes les 3 parties (1, 4, 7, ...)
+- Verifie au tap "Retour" ou "Rejouer" sur l'ecran resultat party.
 
-### Jour 3
+### 7.3 Rewarded (reroll party)
 
--   Animation des dés
--   Logique de randomisation
-
-### Jour 4
-
--   Écran résultat
--   UI + carte
-
-### Jour 5
-
--   Intégration AdMob
-
-### Jour 6
-
--   Achats intégrés (IAP)
-
-### Jour 7
-
--   Boutique + gestion des packs
-
-### Jours 8–9
-
--   Tests, optimisations, polish
-
-### Jour 10
-
--   Build Android (.aab)
--   Préparation fiche Google Play (ASO)
+- Android uniquement.
+- Utilise pour reroll non premium.
+- 1 seule utilisation par tour.
 
 ---
 
-## 10. Évolutions prévues
+## 8. Settings (reorganises)
 
-### Version 1.5
+Sections distinctes:
 
--   Nouveaux packs premium
--   Packs saisonniers
--   Nouveaux effets visuels
--   Sons / vibrations supplémentaires
+- Preferences: son, vibration, langue.
+- Categories: activation/desactivation par categorie (au moins 1 active).
+- Store: boutique, retirer pubs, restaurer achats.
+- Support: contacter support, suggerer fonctionnalite, partager l'app.
+- Communaute: noter l'app, autres applications du studio.
+- Legal: politique de confidentialite, preferences pub/consentement.
+- A propos: dialogue a propos, version `build` incluse.
 
-### Version 2 – Mode Couple
+Liens support/communaute:
 
--   Catégories dédiées aux couples
--   Packs Romantique / Intimité+
--   Interface dédiée (plus premium)
--   Actions adaptées
-
-### Version 3
-
--   Mode multijoueur simple (optionnel)
-
-### Version 4
-
--   Backend pour packs dynamiques
--   Statistiques utilisateur
--   Synchronisation cloud
+- Support: `support@clearforgestudio.com`
+- Partage Android: URL Play Store de l'app
+- Autres applications Android: page developpeur Play Store Clearforge Studio
 
 ---
 
-## 11. Branding
+## 9. Mises a jour in-app
 
--   Nom : Rollit
--   Style : Fun + premium
--   Logo : Dé stylisé avec flèche vers le haut
--   Typographie arrondie, lisible, moderne
+- Verification auto au lancement + bouton manuel en Settings.
+- Android: in-app update flexible (non bloquante).
+- Si MAJ dispo et autorisee: telechargement puis completion de l'update.
+
+---
+
+## 10. Internationalisation
+
+- Langues supportees: francais, anglais.
+- Choix de langue via dialogue dedie (drapeau + nom natif).
+- Clefs i18n presentes pour:
+  - categories
+  - actions
+  - party mode / resultat
+  - settings / store / paywalls
+  - messages d'erreur achat
 
 ---
 
-## 12. Contraintes & risques
+## 11. UX / Navigation
 
--   Trop de publicité peut réduire la rétention
--   Contenu limité = mise à jour fréquente nécessaire
--   Contenu adulte strictement interdit en V1 pour conformité Play Store
--   App doit rester simple visuellement (une action principale)
+- Transitions slide entre:
+  - Home -> Lobby (add players)
+  - Lobby -> Party mode
+  - Party mode -> Resultat fin de partie
+- Ecrans principaux proteges par `SafeArea` pour l'edge-to-edge.
 
 ---
+
+## 12. Hors perimetre actuel
+
+- Backend distant (stats cloud, synchro).
+- Mode couple dedie.
+- Contenu dynamique serveur.
+
+---
+
+## 13. Ecart corrige vs ancien CDC
+
+Points majeurs corriges dans ce document:
+
+- Le jeu ne repose pas sur "deux des virtuels"; le flux actuel est base sur un de/categorie + action.
+- Le menu hamburger n'est pas le pattern principal (settings via icone, ecrans dedies).
+- Le mode party (lobby, tours, scores, fin de partie) est maintenant une fonctionnalite centrale.
+- La logique ads/paywall est precisee selon implementation reelle (cadences + exclusions premium).
+- Le systeme de points est detaille par difficulte et contraintes.
