@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:rollit/config.dart';
 
 enum BuyStatus { success, failed, cancelled, restored }
 
@@ -25,10 +26,7 @@ class PurchaseService {
   bool challengeExtremeOwned = false;
   bool adsRemoved = false;
 
-  static const String _androidApiKey = String.fromEnvironment(
-    "REVENUECAT_ANDROID_KEY",
-    defaultValue: "",
-  );
+  static const String _androidApiKey = revenueCatApiKey;
   static const String _iosApiKey = String.fromEnvironment(
     "REVENUECAT_IOS_KEY",
     defaultValue: "",
